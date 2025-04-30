@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteWise</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='interface.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Barra lateral -->
+    <div class="sidebar">
+        <!-- Topo - apenas lápis e lupa -->
+        <div class="sidebar-top">
+            <div class="sidebar-item active" data-tooltip="Caneta">
+                <i class="fa-solid fa-pen"></i>
+            </div>
+            <div class="sidebar-item" data-tooltip="Buscar">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+        
+        <!-- Parte inferior - todos os outros ícones -->
+        <div class="sidebar-bottom">
+            <div class="sidebar-item" data-tooltip="Arquivo">
+                <i class="fa-solid fa-file"></i>
+            </div>
+            <div class="sidebar-item" data-tooltip="Calendário">
+                <i class="fa-solid fa-calendar"></i>
+            </div>
+            <div class="sidebar-item" data-tooltip="Branch">
+                <i class="fa-solid fa-code-branch"></i>
+            </div>
+            <div class="sidebar-item" data-tooltip="Configurações">
+                <i class="fa-solid fa-gear"></i>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Conteúdo principal -->
+    <div class="main-content">
+        <!-- Quadrado central com busca -->
+        <div class="search-box">
+            <h1>Buscar Notas</h1>
+            
+            <div class="search-input-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Pesquisar baralhos...">
+            </div>
+            
+            <div class="search-results">
+                <div class="search-term">
+                    Segunda guerra mundial
+                    <div class="term-icons">
+                        <i class="fas fa-edit" title="Editar"></i>
+                        <i class="fas fa-trash-alt" title="Excluir"></i>
+                    </div>
+                </div>
+                <div class="search-term">
+                    Guerra fria
+                    <div class="term-icons">
+                        <i class="fas fa-edit" title="Editar"></i>
+                        <i class="fas fa-trash-alt" title="Excluir"></i>
+                    </div>
+                </div>
+                <div class="search-term">
+                    Revolução Industrial
+                    <div class="term-icons">
+                        <i class="fas fa-edit" title="Editar"></i>
+                        <i class="fas fa-trash-alt" title="Excluir"></i>
+                    </div>
+                </div>
+                <div class="search-term">
+                    Geografia do Brasil
+                    <div class="term-icons">
+                        <i class="fas fa-edit" title="Editar"></i>
+                        <i class="fas fa-trash-alt" title="Excluir"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Botões fixos no rodapé -->
+        <div class="footer-buttons">
+            <button class="action-button">Criar Baralho</button>
+            <button class="action-button">Estatísticas</button>
+        </div>
+    </div>
+</body>
+</html>
