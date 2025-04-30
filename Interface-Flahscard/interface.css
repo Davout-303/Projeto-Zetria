@@ -10,13 +10,13 @@ body {
     color: #c97d26;
     height: 100vh;
     position: relative;
-    background-color: #222222; /* Fundo cinza claro para a página */
+    background-color: #222222; 
 }
 
-/* Barra lateral reduzida - agora em cinza escuro */
+
 .sidebar {
     width: 70px;
-    background-color: #343a40; /* Cinza escuro */
+    background-color: #343a40; 
     border-right: 1px solid #272727;
     padding: 20px 0;
     display: flex;
@@ -42,7 +42,7 @@ body {
 }
 
 .sidebar-item:hover {
-    background-color: #2a2c2e; /* Tom mais claro para hover */
+    background-color: #2a2c2e; 
 }
 
 .sidebar-item.active {
@@ -52,10 +52,9 @@ body {
 
 .sidebar-item i {
     font-size: 1.3rem;
-    color: #ffffff; /* Ícones em cinza claro */
+    color: #ffffff; 
 }
 
-/* Tooltip para os ícones */
 .sidebar-item:hover::after {
     content: attr(data-tooltip);
     position: absolute;
@@ -72,17 +71,16 @@ body {
     z-index: 100;
 }
 
-/* Conteúdo principal */
 .main-content {
     flex: 1;
     padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #1b1a1d; /* Fundo cinza claro */
+    background-color: #1b1a1d;
 }
 
-/* Quadrado central */
+
 .search-box {
     width: 400px;
     height: 400px;
@@ -169,7 +167,6 @@ body {
     transform: scale(1.1);
 }
 
-/* Botões fixos no rodapé */
 .footer-buttons {
     position: fixed;
     bottom: 20px;
