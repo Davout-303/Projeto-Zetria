@@ -1,5 +1,5 @@
 @import url(font/CalSans-Regular.ttf);
-
+    
 body {
     margin: 0;
     font-family: 'CalSans-Regular', sans-serif;
@@ -81,7 +81,7 @@ body * {
     padding: 15px;
     background: #696248;
     color: aliceblue;
-    font-size: 20pt;
+    font-size: 12pt;
     box-shadow: 0px 10px 40px #00000056;
     outline: none;
     box-sizing: border-box;
@@ -90,7 +90,7 @@ body * {
 .textfield>label {
     color: aliceblue;
     margin-bottom: 10px;
-    font-size: 25pt;
+    font-size: 12pt;
 }
 
 .textfield>input ::placeholder {
@@ -107,7 +107,7 @@ body * {
     color: #4b4613;
     text-transform: uppercase;
     font-weight: 800;
-    font-size: 20pt;
+    font-size: 20=pt;
     outline: none;
     letter-spacing: 3px;
     cursor: pointer;
