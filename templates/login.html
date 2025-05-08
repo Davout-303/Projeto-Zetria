@@ -6,9 +6,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <img src="/flask_core/static/image/notewise_logo1.0.jpg" alt="Logo NoteWise" width="80" height="60">
-<div class="container">
-    <h2>Login</h2>
+    <div class="container">
+        <img src="{{ url_for('static', filename='image/logo_abelha.png') }}" alt="Logo NoteWise" width="98" height="85">
+    <h2>Faça login na sua conta</h2>
     {% if msg %}
         <p class="error">{{ msg }}</p>
     {% endif %}
