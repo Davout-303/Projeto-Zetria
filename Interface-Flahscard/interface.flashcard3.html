@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NoteWise</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel='stylesheet' type='text/css' media='screen' href='interface1.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='interface3.css'>
 </head>
 <body>
-
-    <!-- Botão de menu hamburguer (visível apenas em mobile) -->
+    <!-- Botão Menu Mobile -->
     <button class="menu-toggle" id="menuToggle">
         <i class="fas fa-bars"></i>
     </button>
@@ -41,55 +40,43 @@
     </div>
     
     <div class="main-content">
-        <div class="search-box-container">
-            <div class="search-box">
-                <h1>Buscar baralho</h1>
-                
-                <div class="search-input-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="Pesquisar baralhos...">
-                </div>
-                
-                <div class="search-results">
-                    <div class="search-term">
-                        Segunda guerra mundial
-                        <div class="term-icons">
-                            <i class="fas fa-edit" title="Editar"></i>
-                            <i class="fas fa-trash-alt" title="Excluir"></i>
-                        </div>
-                    </div>
-                    <div class="search-term">
-                        Guerra fria
-                        <div class="term-icons">
-                            <i class="fas fa-edit" title="Editar"></i>
-                            <i class="fas fa-trash-alt" title="Excluir"></i>
-                        </div>
-                    </div>
-                    <div class="search-term">
-                        Revolução Industrial
-                        <div class="term-icons">
-                            <i class="fas fa-edit" title="Editar"></i>
-                            <i class="fas fa-trash-alt" title="Excluir"></i>
-                        </div>
-                    </div>
-                    <div class="search-term">
-                        Geografia do Brasil
-                        <div class="term-icons">
-                            <i class="fas fa-edit" title="Editar"></i>
-                            <i class="fas fa-trash-alt" title="Excluir"></i>
-                        </div>
-                    </div>
-                </div>
+        <div class="content-header">
+            <div class="war-title">Segunda guerra</div>
+            <div class="link-note">
+                vincular com uma nota
+                <i class="fas fa-link"></i>
             </div>
         </div>
-        <div class="footer-buttons">
-            <button class="action-button">Criar Baralho</button>
-            <button class="action-button">Estatísticas</button>
+        
+        <div class="main-square">
+            <div class="question">
+                Qual foi o primeiro país atacado pela Alemanha na segunda guerra mundial?
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="answer">
+                Resposta: Polônia
+            </div>
+            
+            <div class="image-frames">
+                <div class="image-frame">
+                    <img src="img/mapa-polonia.webp" alt="Mapa da polonia">
+                </div>
+                <div class="image-frame">
+                    <img src="img/bandeira-polonia.png" alt="bandeira da polonia">
+                </div>
+            </div>
+           
+            <div class="action-buttons">
+                <button class="action-btn wrong-btn">Errei</button>
+                <button class="action-btn correct-btn">Acertei</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Controle do menu
+        // Controle do menu hamburguer
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.getElementById('sidebar');
         

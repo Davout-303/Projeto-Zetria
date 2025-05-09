@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NoteWise</title>
-    <link rel='stylesheet' type='text/css' media='screen' href='interface.css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel='stylesheet' type='text/css' media='screen' href='interface.notas.css'>
 </head>
 <body>
-    
-    <div class="sidebar">
+
+    <!-- Botão de menu (visível apenas em mobile) -->
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar" id="sidebar">
         <div class="sidebar-top">
             <div class="sidebar-item active" data-tooltip="Caneta">
                 <i class="fa-solid fa-pen"></i>
@@ -36,50 +41,84 @@
     </div>
     
     <div class="main-content">
-        <div class="search-box">
-            <h1>Buscar Notas</h1>
-            
-            <div class="search-input-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-input" placeholder="Pesquisar baralhos...">
-            </div>
-            
-            <div class="search-results">
-                <div class="search-term">
-                    Segunda guerra mundial
-                    <div class="term-icons">
-                        <i class="fas fa-edit" title="Editar"></i>
-                        <i class="fas fa-trash-alt" title="Excluir"></i>
-                    </div>
+        <div class="search-box-container">
+            <div class="search-box">
+                <h1>Buscar Notas</h1>
+                
+                <div class="search-input-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Pesquisar baralhos...">
                 </div>
-                <div class="search-term">
-                    Guerra fria
-                    <div class="term-icons">
-                        <i class="fas fa-edit" title="Editar"></i>
-                        <i class="fas fa-trash-alt" title="Excluir"></i>
+                
+                <div class="search-results">
+                    <div class="search-term">
+                        Segunda guerra mundial
+                        <div class="term-icons">
+                            <i class="fas fa-edit" title="Editar"></i>
+                            <i class="fas fa-trash-alt" title="Excluir"></i>
+                        </div>
                     </div>
-                </div>
-                <div class="search-term">
-                    Revolução Industrial
-                    <div class="term-icons">
-                        <i class="fas fa-edit" title="Editar"></i>
-                        <i class="fas fa-trash-alt" title="Excluir"></i>
+                    <div class="search-term">
+                        Guerra fria
+                        <div class="term-icons">
+                            <i class="fas fa-edit" title="Editar"></i>
+                            <i class="fas fa-trash-alt" title="Excluir"></i>
+                        </div>
                     </div>
-                </div>
-                <div class="search-term">
-                    Geografia do Brasil
-                    <div class="term-icons">
-                        <i class="fas fa-edit" title="Editar"></i>
-                        <i class="fas fa-trash-alt" title="Excluir"></i>
+                    <div class="search-term">
+                        Revolução Industrial
+                        <div class="term-icons">
+                            <i class="fas fa-edit" title="Editar"></i>
+                            <i class="fas fa-trash-alt" title="Excluir"></i>
+                        </div>
+                    </div>
+                    <div class="search-term">
+                        Geografia do Brasil
+                        <div class="term-icons">
+                            <i class="fas fa-edit" title="Editar"></i>
+                            <i class="fas fa-trash-alt" title="Excluir"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
         <div class="footer-buttons">
             <button class="action-button">Criar Baralho</button>
             <button class="action-button">Estatísticas</button>
         </div>
     </div>
+
+    <script>
+        // Controle do menu
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            
+            // Altera o ícone do botão
+            const icon = menuToggle.querySelector('i');
+            if (sidebar.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        // Fecha o menu quando um item é clicado (em mobile)
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
+        sidebarItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                    const icon = menuToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
