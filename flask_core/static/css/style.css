@@ -1,0 +1,63 @@
+body {
+    background-color: #1e1e2f;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #2e2e3f;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #000000;
+    text-align: center;
+}
+
+input[type="text"], input[type="password"] {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #3e3e4f;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+
+input[type="submit"] {
+    width: 86%;
+    padding: 10px;
+    background-color: #ffcc00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #ffcc33;
+}
+
+a {
+    color: #ffcc00;
+    text-decoration: none;
+}
+
+.password-field {
+    position: relative;
+}
+
+.password-field span {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    cursor: pointer;
+}
+
+.error {
+    color: red;
+    margin: 10px 0;
+}
