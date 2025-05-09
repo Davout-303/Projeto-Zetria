@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,41 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel='stylesheet' type='text/css' media='screen' href='interface1.css'>
 </head>
+
 <body>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const grafosBtn = document.getElementById('grafos-btn');
+          const calendarioBtn = document.getElementById('calendario-btn');
+          const decksBtn = document.getElementById('btn-decks');
+          
+        
+          if (grafosBtn) {
+            grafosBtn.addEventListener('click', function() {
+              window.location.href = '../Anotacoes-grafos/index.html';
+            });
+          }
+        
+          if (calendarioBtn) {
+            calendarioBtn.addEventListener('click', function() {  // Corrigido para calendarioBtn
+              window.location.href = '../Calendario/index.html'; // Ajuste para sua estrutura real
+            });
+          }
+
+          if (decksBtn) {
+            decksBtn.addEventListener('click', function() {  // Corrigido para calendarioBtn
+              window.location.href = 'interface.flashcard2.html'; // Ajuste para sua estrutura real
+            });
+          }
+          
+
+
+        });
+        </script>
+
+
 
     <!-- Botão de menu hamburguer (visível apenas em mobile) -->
     <button class="menu-toggle" id="menuToggle">
@@ -23,34 +58,34 @@
                 <i class="fas fa-search"></i>
             </div>
         </div>
-        
+
         <div class="sidebar-bottom">
             <div class="sidebar-item" data-tooltip="Arquivo">
-                <i class="fa-solid fa-file"></i>
+                <i class="fa-solid fa-file"> <a href=""></a></i>
             </div>
-            <div class="sidebar-item" data-tooltip="Calendário">
+            <div class="sidebar-item" data-tooltip="Calendário" id="calendario-btn">
                 <i class="fa-solid fa-calendar"></i>
             </div>
-            <div class="sidebar-item" data-tooltip="Branch">
-                <i class="fa-solid fa-code-branch"></i>
+            <div class="sidebar-item" data-tooltip="Grafos" id="grafos-btn">
+                <i class="fa-solid fa-code-branch"></a></i>
             </div>
             <div class="sidebar-item" data-tooltip="Configurações">
                 <i class="fa-solid fa-gear"></i>
             </div>
         </div>
     </div>
-    
+
     <div class="main-content">
         <div class="search-box-container">
             <div class="search-box">
                 <h1>Buscar baralho</h1>
-                
+
                 <div class="search-input-container">
                     <i class="fas fa-search search-icon"></i>
                     <input type="text" class="search-input" placeholder="Pesquisar baralhos...">
                 </div>
-                
-                <div class="search-results">
+
+                <div class="search-results" id="btn-decks">
                     <div class="search-term">
                         Segunda guerra mundial
                         <div class="term-icons">
@@ -92,10 +127,10 @@
         // Controle do menu
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.getElementById('sidebar');
-        
+
         menuToggle.addEventListener('click', () => {
             sidebar.classList.toggle('active');
-            
+
             // Altera o ícone do botão
             const icon = menuToggle.querySelector('i');
             if (sidebar.classList.contains('active')) {
@@ -106,7 +141,7 @@
                 icon.classList.add('fa-bars');
             }
         });
-        
+
         // Fecha o menu quando um item é clicado (em mobile)
         const sidebarItems = document.querySelectorAll('.sidebar-item');
         sidebarItems.forEach(item => {
@@ -121,4 +156,5 @@
         });
     </script>
 </body>
+
 </html>
