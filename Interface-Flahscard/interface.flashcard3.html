@@ -8,7 +8,12 @@
     <link rel='stylesheet' type='text/css' media='screen' href='interface3.css'>
 </head>
 <body>
-    <div class="sidebar">
+    <!-- Botão Menu Mobile -->
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar" id="sidebar">
         <div class="sidebar-top">
             <div class="sidebar-item active" data-tooltip="Caneta">
                 <i class="fa-solid fa-pen"></i>
@@ -50,17 +55,16 @@
             
             <div class="divider"></div>
             
-          
             <div class="answer">
                 Resposta: Polônia
             </div>
             
             <div class="image-frames">
                 <div class="image-frame">
-                <img src="img/mapa-polonia.webp" alt="Mapa da polonia" style="width: 300px; height: 200px; object-fit: cover; border-radius: 1px;">
+                    <img src="img/mapa-polonia.webp" alt="Mapa da polonia">
                 </div>
                 <div class="image-frame">
-                    <img src="img/bandeira-polonia.png" alt="bandeira da polonia" style="width: 380px; height: 200px; object-fit: cover; border-radius: 1px;">
+                    <img src="img/bandeira-polonia.png" alt="bandeira da polonia">
                 </div>
             </div>
            
@@ -70,5 +74,38 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Controle do menu hamburguer
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            
+            // Altera o ícone do botão
+            const icon = menuToggle.querySelector('i');
+            if (sidebar.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        // Fecha o menu quando um item é clicado (em mobile)
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
+        sidebarItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                    const icon = menuToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
