@@ -13,34 +13,31 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          const grafosBtn = document.getElementById('grafos-btn');
-          const calendarioBtn = document.getElementById('calendario-btn');
-          const decksBtn = document.getElementById('btn-decks');
-          
-        
-          if (grafosBtn) {
-            grafosBtn.addEventListener('click', function() {
-              window.location.href = '../Anotacoes-grafos/index.html';
-            });
-          }
-        
-          if (calendarioBtn) {
-            calendarioBtn.addEventListener('click', function() {  // Corrigido para calendarioBtn
-              window.location.href = '../Calendario/index.html'; // Ajuste para sua estrutura real
-            });
-          }
-
-          if (decksBtn) {
-            decksBtn.addEventListener('click', function() {  // Corrigido para calendarioBtn
-              window.location.href = 'interface.flashcard2.html'; // Ajuste para sua estrutura real
-            });
-          }
-          
+        document.addEventListener('DOMContentLoaded', function () {
+            const grafosBtn = document.getElementById('grafos-btn');
+            const calendarioBtn = document.getElementById('calendario-btn');
+            const decksBtn = document.getElementById('btn-decks');
 
 
+            if (grafosBtn) {
+                grafosBtn.addEventListener('click', function () {
+                    window.location.href = '../Anotacoes-grafos/index.html';
+                });
+            }
+
+            if (calendarioBtn) {
+                calendarioBtn.addEventListener('click', function () {  // Corrigido para calendarioBtn
+                    window.location.href = '../Calendario/index.html'; // Ajuste para sua estrutura real
+                });
+            }
+
+            if (decksBtn) {
+                decksBtn.addEventListener('click', function () {  // Corrigido para calendarioBtn
+                    window.location.href = 'interface.flashcard2.html'; // Ajuste para sua estrutura real
+                });
+            }
         });
-        </script>
+    </script>
 
 
 
