@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +8,45 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel='stylesheet' type='text/css' media='screen' href='interface2.css'>
 </head>
+
 <body>
-    
-    <!-- Botão de para mobile -->
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const grafosBtn = document.getElementById('grafos-btn');
+            const calendarioBtn = document.getElementById('calendario-btn');
+            const decksBtn = document.getElementById('btn-decks');
+            const respBtn = document.getElementsByClassName('show-answers-btn')[0];
+
+
+            if (grafosBtn) {
+                grafosBtn.addEventListener('click', function () {
+                    window.location.href = '../Anotacoes-grafos/index.html';
+                });
+            }
+
+            if (calendarioBtn) {
+                calendarioBtn.addEventListener('click', function () {
+                    window.location.href = '../Calendario/index.html';
+                });
+            }
+
+            if (decksBtn) {
+                decksBtn.addEventListener('click', function () {
+                    window.location.href = 'interface.flashcard2.html';
+                });
+            }
+
+            if (respBtn) {
+                respBtn.addEventListener('click', function () {
+                    window.location.href = 'interface.flashcard3.html';
+                })
+            }
+        });
+    </script>
+
+
+    <!-- Botão de menu hamburguer (visível apenas em mobile) -->
     <button class="menu-toggle" id="menuToggle">
         <i class="fas fa-bars"></i>
     </button>
@@ -23,23 +60,23 @@
                 <i class="fas fa-search"></i>
             </div>
         </div>
-        
+
         <div class="sidebar-bottom">
             <div class="sidebar-item" data-tooltip="Arquivo">
-                <i class="fa-solid fa-file"></i>
+                <i class="fa-solid fa-file"> <a href=""></a></i>
             </div>
-            <div class="sidebar-item" data-tooltip="Calendário">
+            <div class="sidebar-item" data-tooltip="Calendário" id="calendario-btn">
                 <i class="fa-solid fa-calendar"></i>
             </div>
-            <div class="sidebar-item" data-tooltip="Grafos">
-                <i class="fa-solid fa-code-branch"></i>
+            <div class="sidebar-item" data-tooltip="Grafos" id="grafos-btn">
+                <i class="fa-solid fa-code-branch"></a></i>
             </div>
             <div class="sidebar-item" data-tooltip="Configurações">
                 <i class="fa-solid fa-gear"></i>
             </div>
         </div>
     </div>
-    
+
     <div class="main-content">
         <div class="content-header">
             <div class="war-title">Segunda guerra</div>
@@ -48,24 +85,25 @@
                 <i class="fas fa-link"></i>
             </div>
         </div>
-      
+
         <div class="main-square">
             <div class="question">
                 Qual foi o primeiro país atacado pela Alemanha na segunda guerra mundial?
             </div>
-            
+
             <button class="show-answers-btn">Mostrar Respostas</button>
         </div>
     </div>
+
 
     <script>
         // Controle do menu hamburguer
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.getElementById('sidebar');
-        
+
         menuToggle.addEventListener('click', () => {
             sidebar.classList.toggle('active');
-            
+
             // Altera o ícone do botão
             const icon = menuToggle.querySelector('i');
             if (sidebar.classList.contains('active')) {
@@ -76,7 +114,7 @@
                 icon.classList.add('fa-bars');
             }
         });
-        
+
         // Fecha o menu quando um item é clicado (em mobile)
         const sidebarItems = document.querySelectorAll('.sidebar-item');
         sidebarItems.forEach(item => {
@@ -91,4 +129,5 @@
         });
     </script>
 </body>
+
 </html>

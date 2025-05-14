@@ -18,7 +18,6 @@
             const calendarioBtn = document.getElementById('calendario-btn');
             const decksBtn = document.getElementById('btn-decks');
 
-
             if (grafosBtn) {
                 grafosBtn.addEventListener('click', function () {
                     window.location.href = '../Anotacoes-grafos/index.html';
@@ -26,20 +25,18 @@
             }
 
             if (calendarioBtn) {
-                calendarioBtn.addEventListener('click', function () {  // Corrigido para calendarioBtn
-                    window.location.href = '../Calendario/index.html'; // Ajuste para sua estrutura real
+                calendarioBtn.addEventListener('click', function () {  
+                    window.location.href = '../Calendario/index.html'; 
                 });
             }
 
             if (decksBtn) {
-                decksBtn.addEventListener('click', function () {  // Corrigido para calendarioBtn
-                    window.location.href = 'interface.flashcard2.html'; // Ajuste para sua estrutura real
+                decksBtn.addEventListener('click', function () {  
+                    window.location.href = 'interface.flashcard2.html'; 
                 });
             }
         });
     </script>
-
-
 
     <!-- Botão de menu hamburguer (visível apenas em mobile) -->
     <button class="menu-toggle" id="menuToggle">
@@ -114,6 +111,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="footer-buttons">
             <button class="action-button">Criar Baralho</button>
             <button class="action-button">Estatísticas</button>

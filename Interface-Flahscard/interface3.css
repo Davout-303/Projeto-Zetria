@@ -7,16 +7,16 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    color: #c97d26;
+    color: #ffffff;
     min-height: 100vh;
     position: relative;
-    background-color: #222222;
+    background-color: #1e1e2f;
 }
 
-/* Sidebar - Desktop */
+/* Sidebar para desktop */
 .sidebar {
     width: 70px;
-    background-color: #343a40;
+    background-color: #2e2e3f; 
     border-right: 1px solid #272727;
     padding: 20px 0;
     display: flex;
@@ -26,14 +26,14 @@ body {
     z-index: 1000;
 }
 
-/* Menu - Mobile */
+/* Menu para mobile */
 .menu-toggle {
     display: none;
     position: fixed;
     top: 15px;
     left: 15px;
     z-index: 1001;
-    background-color: #343a40;
+    background-color: #2e2e3f;
     border: none;
     border-radius: 4px;
     padding: 10px;
@@ -45,7 +45,7 @@ body {
     font-size: 1.5rem;
 }
 
-/* Ajustes Mobile */
+/* Mobile: Esconde a sidebar e mostra o menu toggle */
 @media (max-width: 768px) {
     .sidebar {
         position: fixed;
@@ -72,7 +72,21 @@ body {
     .main-content {
         width: 100%;
         padding: 20px;
-        padding-bottom: 30px;
+        padding-bottom: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    
+    .search-box-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+        width: 100%;
     }
     
     .sidebar-item {
@@ -109,17 +123,17 @@ body {
 }
 
 .sidebar-item:hover {
-    background-color: #2a2c2e;
+    background-color: #2a2c2e; 
 }
 
 .sidebar-item.active {
     background-color: #495057;
-    border-left: 3px solid #0977ee;
+    border-left: 3px solid #ffcc00;
 }
 
 .sidebar-item i {
     font-size: 1.3rem;
-    color: #ffffff;
+    color: #ffcc00; 
 }
 
 .sidebar-item:hover::after {
@@ -129,7 +143,7 @@ body {
     top: 50%;
     transform: translateY(-50%);
     background: #212529;
-    color: rgb(255, 255, 255);
+    color: #ffffff;
     padding: 5px 10px;
     border-radius: 4px;
     font-size: 0.8rem;
@@ -143,7 +157,7 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    background-color: #1b1a1d;
+    background-color: #1e1e2f;
     min-height: 100vh;
 }
 
@@ -174,7 +188,7 @@ body {
 }
 
 .link-note {
-    color: #c97d26;
+    color: #ffcc00;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -193,10 +207,14 @@ body {
     }
 }
 
+.war-title{
+    color: #ffcc00;
+}
+
 .main-square {
     width: 65%;
     height: 570px;
-    background-color: rgb(60, 60, 61);
+    background-color: #2e2e3f;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(17, 17, 17, 0.1);
     margin: 0 auto;
@@ -286,8 +304,8 @@ body {
 .image-frame {
     flex: 1;
     height: 200px;
-    background-color: #3a3a3a;
-    border: 1px dashed #555;
+    background-color: none;
+    border: none;
     border-radius: 5px;
     display: flex;
     align-items: center;

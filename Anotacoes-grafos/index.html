@@ -13,8 +13,37 @@
 </head>
 
 <body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const grafosBtn = document.getElementById('grafos-btn');
+            const calendarioBtn = document.getElementById('calendario-btn');
+            const decksBtn = document.getElementById('btn-decks');
 
-    <div class="sidebar">
+            if (grafosBtn) {
+                grafosBtn.addEventListener('click', function () {
+                    window.location.href = '../Anotacoes-grafos/index.html';
+                });
+            }
+
+            if (calendarioBtn) {
+                calendarioBtn.addEventListener('click', function () {  
+                    window.location.href = '../Calendario/index.html'; 
+                });
+            }
+
+            if (decksBtn) {
+                decksBtn.addEventListener('click', function () {  
+                    window.location.href = '../Interface-Flahscard/interface.flashcard1.html'; 
+                });
+            }
+        });
+    </script>
+
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar" id="sidebar">
         <div class="sidebar-top">
             <div class="sidebar-item active" data-tooltip="Caneta">
                 <i class="fa-solid fa-pen"></i>
@@ -25,10 +54,10 @@
         </div>
 
         <div class="sidebar-bottom">
-            <div class="sidebar-item" data-tooltip="Arquivo">
+            <div class="sidebar-item" data-tooltip="Arquivo" id="btn-decks">
                 <i class="fa-solid fa-file"></i>
             </div>
-            <div class="sidebar-item" data-tooltip="Calendário">
+            <div class="sidebar-item" data-tooltip="Calendário" id="calendario-btn">
                 <i class="fa-solid fa-calendar"></i>
             </div>
             <div class="sidebar-item" data-tooltip="Grafos">
@@ -45,6 +74,39 @@
         <h1 class="title">Visualização de grafos</h1>
         <div id="graph"></div>
     </div>
+
+    <script>
+        // Controle do menu
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+
+            // Altera o ícone do botão
+            const icon = menuToggle.querySelector('i');
+            if (sidebar.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Fecha o menu quando um item é clicado (em mobile)
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
+        sidebarItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                    const icon = menuToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

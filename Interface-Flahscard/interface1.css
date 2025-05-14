@@ -7,16 +7,16 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    color: #c97d26;
+    color: #ffcc00;
     min-height: 100vh;
     position: relative;
-    background-color: #222222; 
+    background-color: #1e1e2f; 
 }
 
 /* Sidebar para desktop */
 .sidebar {
     width: 70px;
-    background-color: #343a40; 
+    background-color: #2e2e3f; 
     border-right: 1px solid #272727;
     padding: 20px 0;
     display: flex;
@@ -33,7 +33,7 @@ body {
     top: 15px;
     left: 15px;
     z-index: 1001;
-    background-color: #343a40;
+    background-color: #2e2e3f;
     border: none;
     border-radius: 4px;
     padding: 10px;
@@ -128,12 +128,12 @@ body {
 
 .sidebar-item.active {
     background-color: #495057;
-    border-left: 3px solid #0977ee;
+    border-left: 3px solid #ffcc00;
 }
 
 .sidebar-item i {
     font-size: 1.3rem;
-    color: #ffffff; 
+    color: #ffcc00; 
 }
 
 .sidebar-item:hover::after {
@@ -143,7 +143,7 @@ body {
     top: 50%;
     transform: translateY(-50%);
     background: #212529;
-    color: rgb(255, 255, 255);
+    color: #ffffff;
     padding: 5px 10px;
     border-radius: 4px;
     font-size: 0.8rem;
@@ -159,7 +159,7 @@ body {
     flex-direction: column;
     justify-content: center; 
     align-items: center;
-    background-color: #1b1a1d;
+    background-color: #1e1e2f;
     min-height: 100vh;
 }
 
@@ -176,8 +176,8 @@ body {
     width: 100%;
     max-width: 550px; 
     min-height: 440px;
-    background-color: rgb(60, 60, 61);
-    border-radius: 10px;
+    background-color: #2e2e3f;
+    border-radius: 2.5rem;
     box-shadow: 0 4px 12px rgba(17, 17, 17, 0.1);
     padding: 44px; 
     display: flex;
@@ -239,7 +239,7 @@ body {
 }
 
 .search-input:focus {
-    border-color: #0f61dd;
+    border-color: #ffcc00;
     box-shadow: 0 0 0 3px rgba(32, 100, 173, 0.25);
 }
 
@@ -248,7 +248,7 @@ body {
     left: 15px;
     top: 50%;
     transform: translateY(-50%);
-    color: #4b3838;
+    color: #0c0101;
 }
 
 @media (max-width: 576px) {
@@ -276,7 +276,7 @@ body {
 }
 
 .search-term:hover {
-    background-color: #000000;
+    background-color: #495057;
 }
 
 .term-icons {
@@ -286,13 +286,13 @@ body {
 
 .term-icons i {
     font-size: 14px;
-    color: #fff1f1;
+    color: #ffcc00;
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .term-icons i:hover {
-    color: #d3bebe;
+    color: #ffcc00;
     transform: scale(1.1);
 }
 
@@ -322,7 +322,7 @@ body {
 
 .action-button {
     padding: 12px 25px;
-    background-color: orange;
+    background-color: #ffcc0077;
     color: rgb(238, 229, 229);
     border: none;
     border-radius: 6px;
@@ -345,7 +345,7 @@ body {
 }
 
 .action-button:hover {
-    background-color: #000000;
+    background-color: #a28200;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
