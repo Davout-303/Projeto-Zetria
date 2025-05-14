@@ -1,121 +1,47 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-    margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  color: #ffcc00;
+  min-height: 100vh;
+  position: relative;
+  background-color: #1e1e2f;
 }
 
-body * {
-    box-sizing: border-box;
-}
-
-body * {
- display: flex;
-}
-
-.Barra {
-    background-color: gray;
-    border-radius: 5px; width: 4vw;
-    height: 100vh;
-    outline: none;
-    margin: 0;
+.main-content {
+    background-color: #1e1e2f;
+    flex: 1;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    position: left;
-    position: absolute;
-    left: 0;
-}
-
-
-.interface {
-    background-color: black;
-    width: flex;
-    height: 100vh;
-    outline: none;
-    margin: 0;
-}
-
-.sidebar-top, .sidebar-bottom {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+    justify-content: center; 
     align-items: center;
-    font-size: 1.8rem;
-}
-
-.sidebar-item {
-    padding: 15px 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    margin-bottom: 1.5rem;
-    position: relative;   
-}
-
-.sidebar-item:hover {
-    background-color: #2a2c2e;
-}
-
-.sidebar-item.active {
-    background-color: #495057;
-    border-left: 3px solid #0977ee;
-}
-
-.sidebar-item i {
-    font-size: 1.3rem;
-    color: #ffffff;
-}
-
-.sidebar-item:hover::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    left: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #212529;
-    color: rgb(255, 255, 255);
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    white-space: nowrap;
-    margin-left: 10px;
-    z-index: 100;
+    min-height: 100vh;
 }
 
 #Box{
+    padding: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 400px;
-    height: 200px;
+    width: 25rem;
+    height: 15rem;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     margin: 0 auto; /*Centralizar*/
-    background-color: gray;
-    border-radius: 5px; width: 400px;
-    color: white;
+    background-color: #2e2e3f;
+    border-radius: 2rem; 
+    color: #ffcc00;
     align-self: center;
     letter-spacing: 2px;
  }
 
  /**  Celular **/
  @media (max-width: 768px){
-
-    .Barra{
-    width: 100%;
-    float: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 10;
-    display: none; 
-    }
-
-
-.sidebar-item i {
-        font-size: 18px;
-        flex: 1;
-        padding: 10px 0;
-    }
 
     #Box {
         font-size: 14px;

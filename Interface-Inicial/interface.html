@@ -7,25 +7,19 @@
     <title>Página Inicial</title>
     <link rel="stylesheet" href="interface.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="navbar.css">
     <link rel='stylesheet' type='text/css' media='screen' href='interface.css'>
+    <script src="script.js"></script>
 </head>
 
 <body>
-      
-    <div class="interface">
+    
+        <!-- Botão de menu hamburguer (visível apenas em mobile) -->
+        <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
 
-        <div id="Box">
-            (Alt + n para adicionar uma nota)
-            <br> 
-            (Alt + v para visualizar as suas notas)
-            <br>
-            (Alt + b para visualizar seus baralhos)
-            <br>
-            (Alt + c para ir para visualizar os calendarios)
-           </div>
-    
-    
-        <div class="Barra">
+        <div class="sidebar" id="sidebar">
             <div class="sidebar-top">
                 <div class="sidebar-item active" data-tooltip="Caneta">
                     <i class="fa-solid fa-pen"></i>
@@ -37,19 +31,29 @@
 
             <div class="sidebar-bottom">
                 <div class="sidebar-item" data-tooltip="Arquivo">
-                    <i class="fa-solid fa-file"></i>
+                    <i class="fa-solid fa-file"> <a href=""></a></i>
                 </div>
-                <div class="sidebar-item" data-tooltip="Calendário">
+                <div class="sidebar-item" data-tooltip="Calendário" id="calendario-btn">
                     <i class="fa-solid fa-calendar"></i>
                 </div>
-                <div class="sidebar-item" data-tooltip="Branch">
-                    <i class="fa-solid fa-code-branch"></i>
+                <div class="sidebar-item" data-tooltip="Grafos" id="grafos-btn">
+                    <i class="fa-solid fa-code-branch"></a></i>
                 </div>
                 <div class="sidebar-item" data-tooltip="Configurações">
                     <i class="fa-solid fa-gear"></i>
                 </div>
             </div>
-                
+        </div>
+
+    <div class="main-content">
+        <div id="Box">
+            (Alt + n para adicionar uma nota)
+            <br>
+            (Alt + v para visualizar as suas notas)
+            <br>
+            (Alt + b para visualizar seus baralhos)
+            <br>
+            (Alt + c para ir para visualizar os calendarios)
         </div>
     </div>
 </body>
