@@ -23,6 +23,7 @@ body {
 
 /* Sidebar para desktop */
 .sidebar {
+    max-height: 100vh;
     width: 70px;
     background-color: #2e2e3f; 
     border-right: 1px solid #272727;
