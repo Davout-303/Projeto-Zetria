@@ -6,45 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NoteWise</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel='stylesheet' type='text/css' media='screen' href='interface2.css'>
+    <link rel="stylesheet" href="./style/navbar.css">
+    <link rel='stylesheet' type='text/css' media='screen' href='./style/interface2.css'>
+    <script src="script.js"></script>
 </head>
 
 <body>
-    <script>
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const grafosBtn = document.getElementById('grafos-btn');
-            const calendarioBtn = document.getElementById('calendario-btn');
-            const decksBtn = document.getElementById('btn-decks');
-            const respBtn = document.getElementsByClassName('show-answers-btn')[0];
-
-
-            if (grafosBtn) {
-                grafosBtn.addEventListener('click', function () {
-                    window.location.href = '../Anotacoes-grafos/index.html';
-                });
-            }
-
-            if (calendarioBtn) {
-                calendarioBtn.addEventListener('click', function () {
-                    window.location.href = '../Calendario/index.html';
-                });
-            }
-
-            if (decksBtn) {
-                decksBtn.addEventListener('click', function () {
-                    window.location.href = 'interface.flashcard2.html';
-                });
-            }
-
-            if (respBtn) {
-                respBtn.addEventListener('click', function () {
-                    window.location.href = 'interface.flashcard3.html';
-                })
-            }
-        });
-    </script>
-
 
     <!-- Botão de menu hamburguer (visível apenas em mobile) -->
     <button class="menu-toggle" id="menuToggle">
@@ -91,43 +58,9 @@
                 Qual foi o primeiro país atacado pela Alemanha na segunda guerra mundial?
             </div>
 
-            <button class="show-answers-btn">Mostrar Respostas</button>
+            <button class="show-answers-btn" id="mostrar-resposta">Mostrar Respostas</button>
         </div>
     </div>
-
-
-    <script>
-        // Controle do menu hamburguer
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.getElementById('sidebar');
-
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-
-            // Altera o ícone do botão
-            const icon = menuToggle.querySelector('i');
-            if (sidebar.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
-
-        // Fecha o menu quando um item é clicado (em mobile)
-        const sidebarItems = document.querySelectorAll('.sidebar-item');
-        sidebarItems.forEach(item => {
-            item.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    sidebar.classList.remove('active');
-                    const icon = menuToggle.querySelector('i');
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>
