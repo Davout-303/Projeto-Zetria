@@ -1,12 +1,28 @@
 document.addEventListener("DOMContentLoaded", function () {
-const caneta = document.getElementById("btn-caneta");
+  // Botões da barra lateral
+  const grafosBtn = document.getElementById("grafos-btn");
+  const decksBtn = document.getElementById("btn-decks");
+  const caneta = document.getElementById("btn-caneta");
 
   if (caneta) {
     caneta.addEventListener("click", function () {
       window.location.href = "../Criacao-nota/index.html";
     });
   }
-  
+
+
+  if (grafosBtn) {
+    grafosBtn.addEventListener("click", function () {
+      window.location.href = "../Anotacoes-grafos/index.html";
+    });
+  }
+
+  if (decksBtn) {
+    decksBtn.addEventListener("click", function () {
+      window.location.href = "interface.flashcard2.html";
+    });
+  }
+
   // Controle do menu lateral
   const menuToggle = document.getElementById("menuToggle");
   const sidebar = document.getElementById("sidebar");

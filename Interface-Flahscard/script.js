@@ -6,6 +6,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const respBtn = document.getElementById("mostrar-resposta");
   const acerteiBtn = document.getElementsByClassName('correct-btn')[0];
   const erreiBtn = document.getElementsByClassName('wrong-btn')[0];
+  const caneta = document.getElementById("btn-caneta");
+
+  if (caneta) {
+    caneta.addEventListener("click", function () {
+      window.location.href = "../Criacao-nota/index.html";
+    });
+  }
 
   if (grafosBtn) {
     grafosBtn.addEventListener("click", function () {
@@ -15,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (calendarioBtn) {
     calendarioBtn.addEventListener("click", function () {
-      window.location.href = "../Calendario/index.html";
+      window.location.href = "../Calendario/calendario.html";
     });
   }
 
