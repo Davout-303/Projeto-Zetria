@@ -9,6 +9,10 @@ body * {
     box-sizing: border-box;
 }
 
+a{
+    text-decoration: none;
+    color: #ffcc00;;
+}
 .main-Cadastro {
     width: 100vw;
     height: 100vh;
@@ -30,7 +34,7 @@ body * {
 
 .left-Cadastro>h1 {
     font-size: 2vw;
-    color: rgb(255, 230, 0);
+    color: #ffcc00;
 
 }
 
@@ -60,7 +64,7 @@ body * {
 }
 
 .r-card-Cadastro>h1 {
-    color: rgb(255, 230, 0);
+    color: #ffcc00;
     font-weight: 800;
     margin: 0;
 }
@@ -79,7 +83,7 @@ body * {
     border: none;
     border-radius: 10px;
     padding: 15px;
-    background: #696248;
+    background: #2e2e3f;
     color: aliceblue;
     font-size: 12pt;
     box-shadow: 0px 10px 40px #00000056;
@@ -94,25 +98,9 @@ body * {
 }
 
 .textfield>input ::placeholder {
-    color: #f0ffff94;
+    color: #1e1e2f;
 }
 
-.btn-Login {
-    width: 100%;
-    border: none;
-    border-radius: 8px;
-    padding: 16px 0px;
-    margin: 25px;
-    background: rgb(255, 234, 0);
-    color: #4b4613;
-    text-transform: uppercase;
-    font-weight: 800;
-    font-size: 20=pt;
-    outline: none;
-    letter-spacing: 3px;
-    cursor: pointer;
-    box-shadow: 0px 10px 40px -12px #fbff0052;
-}
 
 .btn-cadastro {
     width: 100%;
@@ -120,8 +108,8 @@ body * {
     border-radius: 8px;
     padding: 16px 0px;
     margin: 25px;
-    background: rgb(255, 234, 0);
-    color: #4b4613;
+    background: #ffcc00;
+    color: #1e1e2f;
     text-transform: uppercase;
     font-weight: 800;
     font-size: 20=pt;
