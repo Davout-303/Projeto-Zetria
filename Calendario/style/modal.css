@@ -154,3 +154,35 @@
     display: flex;
     justify-content: center;
 }
+
+@media (max-width: 1024px) {
+
+.modal {
+    margin: 0;
+    background: #1e1e2f;
+    border-radius: 10px;
+    width: 100vw;
+    max-width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(20px);
+    transition: transform 0.3s;
+}
+
+}
+
+
+@media (max-width: 576px) {
+
+.modal {
+    margin: 0;
+    background: #1e1e2f;
+    border-radius: 10px;
+    width: 80vw;
+    max-width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(20px);
+    transition: transform 0.3s;
+}
+
+}
+
