@@ -1,5 +1,5 @@
 @import url(font/CalSans-Regular.ttf);
-    
+
 body {
     margin: 0;
     font-family: 'CalSans-Regular', sans-serif;
@@ -9,16 +9,16 @@ body * {
     box-sizing: border-box;
 }
 
-.main-login {
+.main-Cadastro {
     width: 100vw;
     height: 100vh;
-    background-color: #1b1710;
+    background-color: #1e1e2f;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.left-login {
+.left-Cadastro {
     width: 50vw;
     height: 100vh;
     display: flex;
@@ -28,18 +28,18 @@ body * {
     animation: flutuar 3s ease-in-out infinite;
 }
 
-.left-login>h1 {
+.left-Cadastro>h1 {
     font-size: 2vw;
     color: rgb(255, 230, 0);
-    
+
 }
 
-.left-login-img {
+.left-Cadastro-img {
     width: 20vw;
-    
+
 }
 
-.right-login {
+.right-Cadastro {
     width: 50vw;
     height: 100vh;
     display: flex;
@@ -47,19 +47,19 @@ body * {
     align-items: center;
 }
 
-.r-card-login {
+.r-card-Cadastro {
     width: 60%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     padding: 30px 35px;
-    background: #414128;
+    background: #2e2e3f;
     border-radius: 20px;
-    box-shadow: 0px 10px 40px #00000056;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.r-card-login>h1 {
+.r-card-Cadastro>h1 {
     color: rgb(255, 230, 0);
     font-weight: 800;
     margin: 0;
@@ -97,7 +97,7 @@ body * {
     color: #f0ffff94;
 }
 
-.btn-login {
+.btn-Login {
     width: 100%;
     border: none;
     border-radius: 8px;
@@ -114,8 +114,8 @@ body * {
     box-shadow: 0px 10px 40px -12px #fbff0052;
 }
 
-.btn-cadastro{
-width: 100%;
+.btn-cadastro {
+    width: 100%;
     border: none;
     border-radius: 8px;
     padding: 16px 0px;
@@ -131,40 +131,40 @@ width: 100%;
     box-shadow: 0px 10px 40px -12px #fbff0052;
 }
 
-.btn-login:hover{
+.btn-login:hover {
     background: rgb(255, 213, 0);
 }
 
 @media only screen and (max-width: 950px) {
-    .r-card-login {
+    .r-card-Cadastro {
         width: 85vw;
     }
 }
 
 @media only screen and (max-width: 600px) {
-    .main-login {
+    .main-Cadastro {
         flex-direction: column;
     }
 
-    .left-login>h1 {
+    .left-Cadastro>h1 {
         display: none;
     }
 
-    .left-login {
+    .left-Cadastro {
         width: 100%;
         height: auto;
     }
 
-    .right-login {
+    .right-Cadastro {
         width: 100%;
         height: auto;
     }
 
-    .left-login-img {
+    .left-Cadastro-img {
         width: 50vw;
     }
 
-    .r-card-login {
+    .r-card-Cadastro {
         width: 90%;
     }
 }
