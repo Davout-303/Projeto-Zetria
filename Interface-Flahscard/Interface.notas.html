@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NoteWise</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./style/navbar.css">
-    <link rel='stylesheet' type='text/css' media='screen' href='./style/interface.notas.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='./style/interface1.css'>
+    <script src="script.js"></script>
 </head>
+
 <body>
 
-    <!-- Botão de menu (visível apenas em mobile) -->
+
+    <!-- Botão de menu hamburguer (visível apenas em mobile) -->
     <button class="menu-toggle" id="menuToggle">
         <i class="fas fa-bars"></i>
     </button>
@@ -23,34 +28,34 @@
                 <i class="fas fa-search"></i>
             </div>
         </div>
-        
+
         <div class="sidebar-bottom">
             <div class="sidebar-item" data-tooltip="Arquivo">
-                <i class="fa-solid fa-file"></i>
+                <i class="fa-solid fa-file"> <a href=""></a></i>
             </div>
-            <div class="sidebar-item" data-tooltip="Calendário">
+            <div class="sidebar-item" data-tooltip="Calendário" id="calendario-btn">
                 <i class="fa-solid fa-calendar"></i>
             </div>
-            <div class="sidebar-item" data-tooltip="Grafos">
-                <i class="fa-solid fa-code-branch"></i>
+            <div class="sidebar-item" data-tooltip="Grafos" id="grafos-btn">
+                <i class="fa-solid fa-code-branch"></a></i>
             </div>
             <div class="sidebar-item" data-tooltip="Configurações">
                 <i class="fa-solid fa-gear"></i>
             </div>
         </div>
     </div>
-    
+
     <div class="main-content">
         <div class="search-box-container">
             <div class="search-box">
                 <h1>Buscar Notas</h1>
-                
+
                 <div class="search-input-container">
                     <i class="fas fa-search search-icon"></i>
                     <input type="text" class="search-input" placeholder="Pesquisar baralhos...">
                 </div>
-                
-                <div class="search-results">
+
+                <div class="search-results" id="btn-decks">
                     <div class="search-term">
                         Segunda guerra mundial
                         <div class="term-icons">
@@ -82,6 +87,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="footer-buttons">
             <button class="action-button">Criar Baralho</button>
             <button class="action-button">Estatísticas</button>
@@ -89,4 +95,5 @@
     </div>
 
 </body>
+
 </html>
