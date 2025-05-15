@@ -7,32 +7,37 @@
     <title>Calendário Interativo</title>
     
     <!-- Links para folhas de estilo -->
-    <link rel="stylesheet" href="calendario.css">
+    <link rel="stylesheet" href="./style/navbar.css">
+    <link rel="stylesheet" href="./style/calendario.css">
+    <link rel="stylesheet" href="./style/modal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Barra lateral de navegação -->
-    <div class="sidebar">
-        <!-- Seção superior da sidebar -->
+
+        <!-- Botão de menu hamburguer (visível apenas em mobile) -->
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar" id="sidebar">
         <div class="sidebar-top">
-            <div class="sidebar-item" data-tooltip="Caneta">
+            <div class="sidebar-item active" data-tooltip="Caneta">
                 <i class="fa-solid fa-pen"></i>
             </div>
             <div class="sidebar-item" data-tooltip="Buscar">
                 <i class="fas fa-search"></i>
             </div>
         </div>
-        
-        <!-- Seção inferior da sidebar -->
+
         <div class="sidebar-bottom">
             <div class="sidebar-item" data-tooltip="Arquivo">
-                <i class="fa-solid fa-file"></i>
+                <i class="fa-solid fa-file"> <a href=""></a></i>
             </div>
-            <div class="sidebar-item active" data-tooltip="Calendário">
+            <div class="sidebar-item" data-tooltip="Calendário" id="calendario-btn">
                 <i class="fa-solid fa-calendar"></i>
             </div>
-            <div class="sidebar-item" data-tooltip="Branch">
-                <i class="fa-solid fa-code-branch"></i>
+            <div class="sidebar-item" data-tooltip="Grafos" id="grafos-btn">
+                <i class="fa-solid fa-code-branch"></a></i>
             </div>
             <div class="sidebar-item" data-tooltip="Configurações">
                 <i class="fa-solid fa-gear"></i>
@@ -60,7 +65,7 @@
                         </button>
                     </div>
                     <button class="nav-button" id="today-button">
-                        Hoje
+                        H
                     </button>
                 </div>
                 

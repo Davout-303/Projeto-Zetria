@@ -1,4 +1,3 @@
-// Inicialização quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', function() {
     // Seleção de elementos do calendário
     const currentMonthEl = document.getElementById('current-month');
@@ -19,7 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentDate = new Date();
     let selectedDate = null;
     let events = JSON.parse(localStorage.getItem('calendarEvents')) || {};
-    
+    let rowsNeeded = 5; // Valor padrão inicial
+
     // Função principal para renderizar o calendário
     function renderCalendar() {
         // Cálculos de datas para o mês atual
@@ -101,8 +101,23 @@ document.addEventListener('DOMContentLoaded', function() {
             days += `<div class="day other-month">${i}</div>`;
         }
         
+        // Calcula quantas linhas serão necessárias
+        const totalDays = firstDayIndex + monthDays + (6 - lastDayIndex);
+        rowsNeeded = Math.ceil(totalDays / 7);
+        
         // Atualiza o DOM
         calendarDays.innerHTML = days;
+        
+        // Aplica o número de linhas necessárias
+        calendarDays.style.gridTemplateRows = `repeat(${rowsNeeded}, 1fr)`;
+        
+        // Ajusta a altura mínima do container dos dias
+        const dayElements = calendarDays.querySelectorAll('.day');
+        if (dayElements.length > 0) {
+            const dayHeight = dayElements[0].offsetHeight;
+            calendarDays.style.minHeight = `${dayHeight * rowsNeeded + (rowsNeeded - 1) * 8}px`; // 8px é o gap
+        }
+        
         setupDayClickListeners();
     }
     
@@ -185,6 +200,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Função para ajustar o layout quando a janela é redimensionada
+    function handleResize() {
+        const dayElements = calendarDays.querySelectorAll('.day');
+        if (dayElements.length > 0) {
+            const dayHeight = dayElements[0].offsetHeight;
+            calendarDays.style.minHeight = `${dayHeight * rowsNeeded + (rowsNeeded - 1) * 8}px`;
+        }
+    }
+    
     // Event listeners para navegação
     prevMonthBtn.addEventListener('click', () => {
         currentDate.setMonth(currentDate.getMonth() - 1);
@@ -223,6 +247,9 @@ document.addEventListener('DOMContentLoaded', function() {
             modalOverlay.classList.remove('active');
         }
     });
+    
+    // Observador de redimensionamento
+    window.addEventListener('resize', handleResize);
     
     // Inicializa o calendário
     renderCalendar();
