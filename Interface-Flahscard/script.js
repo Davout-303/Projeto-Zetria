@@ -2,11 +2,14 @@ document.addEventListener("DOMContentLoaded", function () {
   // Botões da barra lateral
   const grafosBtn = document.getElementById("grafos-btn");
   const calendarioBtn = document.getElementById("calendario-btn");
-  const decksBtn = document.getElementById("btn-decks");
   const respBtn = document.getElementById("mostrar-resposta");
+  const caneta = document.getElementById("btn-caneta");
+  const baralho = document.getElementById("btn-decks");
+
+  const deckname = document.getElementsByClassName("deck-name");
   const acerteiBtn = document.getElementsByClassName('correct-btn')[0];
   const erreiBtn = document.getElementsByClassName('wrong-btn')[0];
-  const caneta = document.getElementById("btn-caneta");
+  
 
   if (caneta) {
     caneta.addEventListener("click", function () {
@@ -25,10 +28,10 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.href = "../Calendario/calendario.html";
     });
   }
-
-  if (decksBtn) {
-    decksBtn.addEventListener("click", function () {
-      window.location.href = "interface.flashcard2.html";
+  
+  if (baralho) {
+    baralho.addEventListener("click", function () {
+      window.location.href = "interface.flashcard1.html";
     });
   }
 
@@ -37,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.href = "interface.flashcard3.html";
     });
   }
-
+  
   if (acerteiBtn) {
     acerteiBtn.addEventListener("click", function () {
       window.location.href = "interface.flashcard2.html";

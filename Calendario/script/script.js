@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const decksBtn = document.getElementById("btn-decks");
   const caneta = document.getElementById("btn-caneta");
 
+
   if (caneta) {
     caneta.addEventListener("click", function () {
       window.location.href = "../Criacao-nota/index.html";
@@ -19,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (decksBtn) {
     decksBtn.addEventListener("click", function () {
-      window.location.href = "interface.flashcard2.html";
+      window.location.href = "../Interface-Flahscard/interface.flashcard1.html";
     });
   }
 
