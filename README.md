@@ -1,10 +1,10 @@
-# NoteWise
+# Zetria
 
 Organize, aprenda, evolua.
 
 ## ✨ Visão Geral
 
-NoteWise é uma aplicação voltada para estudantes que desejam organizar, revisar e reter melhor as informações dos seus estudos. A proposta é permitir a criação e interconexão de anotações por meio de uma interface gráfica intuitiva, combinando funcionalidades inspiradas em ferramentas como Notion, Obsidian e Anki.
+Zetria é uma aplicação voltada para estudantes que desejam organizar, revisar e reter melhor as informações dos seus estudos. A proposta é permitir a criação e interconexão de anotações por meio de uma interface gráfica intuitiva, combinando funcionalidades inspiradas em ferramentas como Notion, Obsidian e Anki.
 
 ## 👥 Equipe
 
@@ -58,5 +58,5 @@ NoteWise é uma aplicação voltada para estudantes que desejam organizar, revis
 
 ---
 
-> “Apesar de já existirem ferramentas para anotações e indexação, poucas integram funcionalidades como flashcards e visualização de conhecimento de forma nativa e acessível. NoteWise busca preencher essa lacuna.”
+> “Apesar de já existirem ferramentas para anotações e indexação, poucas integram funcionalidades como flashcards e visualização de conhecimento de forma nativa e acessível. Zetria busca preencher essa lacuna.”
 
