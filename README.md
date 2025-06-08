@@ -1,4 +1,4 @@
-# Zetria
+# 🌌 Zetria
 
 Organize, aprenda, evolua.
 
