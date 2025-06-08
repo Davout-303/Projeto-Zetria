@@ -2,6 +2,18 @@
 
 Organize, aprenda, evolua.
 
+## 📚 Sumário
+
+- [✨ Visão Geral](#-visão-geral)
+- [👥 Equipe](#-equipe)
+- [🧩 Funcionalidades](#-funcionalidades)
+- [🎯 Benefícios](#-benefícios)
+- [🧠 Inspirações](#-inspirações)
+- [🛠️ Tecnologias Sugeridas](#️-tecnologias-sugeridas)
+- [🚀 Impacto Esperado](#-impacto-esperado)
+- [📸 Capturas de Tela](#-capturas-de-tela)
+- [📌 Status](#-status)
+
 ## ✨ Visão Geral
 
 Zetria é uma aplicação voltada para estudantes que desejam organizar, revisar e reter melhor as informações dos seus estudos. A proposta é permitir a criação e interconexão de anotações por meio de uma interface gráfica intuitiva, combinando funcionalidades inspiradas em ferramentas como Notion, Obsidian e Anki.
@@ -43,18 +55,37 @@ Zetria é uma aplicação voltada para estudantes que desejam organizar, revisar
 
 ## 🛠️ Tecnologias Sugeridas
 
-- **Frontend**: HTML, CSS, JavaScript   
-- **Visualização de grafos**: D3.js  
-- **Calendário**: FullCalendar.js  
-- **Backend**: Python  
-- **Banco de dados**: MySQL  
+### 🎨 Frontend
+- `HTML`, `CSS`, `JavaScript`
+- Visualização de grafos com [`D3.js`](https://d3js.org)
+- Calendário com [`FullCalendar.js`](https://fullcalendar.io)
+
+### ⚙️ Backend
+- `Python` (Flask ou FastAPI recomendados)
+
+### 🗃️ Banco de Dados
+- `MySQL`
+
 
 ## 🎯 Impacto Esperado
 
 - Aumento da retenção de conhecimento  
 - Melhor organização de estudos  
 - Estudantes mais autônomos  
-- Aplicável em diversas áreas do conhecimento  
+- Aplicável em diversas áreas do conhecimento
+
+## 📸 Capturas de Tela
+
+> ⚠️ *As imagens abaixo são exemplos fictícios. As imagens reais da aplicação serão substituidas após o desenvolvimento.*
+
+| Tela Inicial | Editor de Anotações | Visualização em Grafos |
+|--------------|---------------------|--------------------------|
+| ![home](docs/img/home.png) | ![editor](docs/img/editor.png) | ![grafo](docs/img/grafo.png) |
+
+## 📌 Status
+
+🛠️ **Em desenvolvimento**  
+Foco atual: MVP com funcionalidades básicas de anotações, flashcards e agenda.
 
 ---
 
