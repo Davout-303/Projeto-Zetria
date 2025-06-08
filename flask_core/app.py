@@ -1,19 +1,30 @@
-from flask import Flask, render_template, redirect, url_for, request, session
-from flask_mysqldb import MySQL
-import MySQLdb.cursors
-import bcrypt
+import os
 import re
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+import mysql.connector
+from werkzeug.security import generate_password_hash, check_password_hash
+from functools import wraps
+import json
 
-app = Flask(__name__, static_url_path='/static')
-app.secret_key = ''
+app = Flask(__name__)
+app.secret_key = os.urandom(24)
 
-
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'seu_usuario'
-app.config['MYSQL_PASSWORD'] = 'sua_senha'
-app.config['MYSQL_DB'] = 'loginapp'
-
-mysql = MySQL(app)
+def get_db_connection():
+    try:
+        conn = mysql.connector.connect(
+            host="localhost",
+            user="notewise_user",
+            password="root",
+            database="schema.sql",
+            port=3307,
+            charset='utf8mb4',
+            collation='utf8mb4_unicode_ci'
+        )
+        return conn
+    except mysql.connector.Error as err:
+        print(f"Erro de conexão com o MySQL: {err}")
+        flash(f"Erro crítico de conexão com o banco de dados: {err}", "danger")
+        return None
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
