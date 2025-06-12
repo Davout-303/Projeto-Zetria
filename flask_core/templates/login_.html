@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - NoteWise</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+    <img src="{{ url_for('static', filename='/flask_core/static/image/logo_abelha.png') }}" alt="Logo NoteWise" width="95" height="85">
+    <h2>Entre na sua conta</h2>
+    {% if msg %}
+        <p class="error">{{ msg }}</p>
+    {% endif %}
+    <form method="POST">
+        <input type="text" name="email" placeholder="Email" required><br>
+        <div class="password-field">
+            <input type="password" name="password" id="password" placeholder="Senha" required>
+            <span onclick="togglePassword()"></span>
+        </div>
+        <input type="submit" value="Entrar">
+    </form>
+    <p>Não tem conta? <a href="/register">Cadastrar-se</a></p>
+</div>
+<script>
+function togglePassword() {
+    var x = document.getElementById("password");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+</script>
+</body>
+</html>
