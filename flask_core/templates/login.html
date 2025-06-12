@@ -1,44 +1,44 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <meta charset='utf-8'>
-        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-        <title>NoteWise</title>
-        <meta name='viewport' content='width=device-width, initial-scale=1'>
-        <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
-        <script src="script.js"></script>
-    </head>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>NoteWise</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="./static/Interface-Login/script.js"></script>
+</head>
 
-    <body>
-        <div class="main-login">
-            <div class="left-login">
-                <h1>Boas vindas ao Zetria!<br>
-                    Para continuar faça login na sua conta.</h1>
-                <img src="imgs/img-login.png" class="left-login-img"
-                    alt="img-login">
-            </div>
-            <div class="right-login">
-               
-                <form class="r-card-login">
-                    <h1>Login</h1>
-                    <div class="textfield">
-                        <label for="usuario">Usuário</label>
-                        <input type="text" name="usuario" placeholder="Usuário">
-                    </div>
-                    <div class="textfield">
-                        <label for="senha">Senha</label>
-                        <input type="password" name="senha" placeholder="senha">
-                    </div>
-                    <button class="btn-login" id="btn-login">Login</button>
-                    <a href="../Interface-Cadastro/Cadastro.html">Não possuí uma conta?</a>
+<body>
+    <div class="main-login">
+        <div class="left-login">
+            <h1>Boas vindas ao Zetria!<br>
+                Para continuar faça login na sua conta.</h1>
+            <img src="imgs/img-login.png" class="left-login-img" alt="img-login">
+        </div>
+        <div class="right-login">
 
-                </form>
-           
-            </div>
+            <form class="r-card-login">
+                <h1>Login</h1>
+                <div class="textfield">
+                    <label for="usuario">Usuário</label>
+                    <input type="text" name="usuario" placeholder="Usuário">
+                </div>
+                <div class="textfield">
+                    <label for="senha">Senha</label>
+                    <input type="password" name="senha" placeholder="senha">
+                </div>
+                <button class="btn-login" id="btn-login">Login</button>
+                <a href="../Interface-Cadastro/Cadastro.html">Não possuí uma conta?</a>
+
+            </form>
 
         </div>
 
-    </body>
+    </div>
+
+</body>
 
 </html>
