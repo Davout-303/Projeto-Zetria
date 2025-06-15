@@ -1,6 +1,7 @@
 import os
 import re
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+from flask_cors import CORS
 import mysql.connector
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
@@ -8,14 +9,15 @@ import json
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+CORS(app)  
 
 
 def get_db_connection():
     try:
         conn = mysql.connector.connect(
             host="localhost",
-            user="zetria_user",
-            password="password",
+            user="root",
+            password="1234",
             database="zetria",
             port=3307,
             charset='utf8mb4',
@@ -51,6 +53,90 @@ def index():
     if 'user_id' in session:
         return redirect(url_for('dashboard'))
     return redirect(url_for('login'))
+
+
+@app.route('/cadastro', methods=['GET', 'POST'])
+def cadastro():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        confirm_password = request.form.get('confirm_password', '')
+        
+        if password != confirm_password:
+            flash('As senhas não coincidem.', 'danger')
+            return render_template('Cadastro.html')
+            
+        hashed_password = generate_password_hash(password)
+        conn = get_db_connection()
+        cursor = None
+        if conn:
+            try:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "INSERT INTO usuarios (username, password_hash) VALUES (%s, %s)", (username, hashed_password))
+                conn.commit()
+                flash('Usuário registrado com sucesso! Faça o login.', 'success')
+                return redirect(url_for('login'))
+            except mysql.connector.IntegrityError:
+                flash('Nome de usuário já existe.', 'danger')
+            except mysql.connector.Error as err:
+                flash(f"Erro ao registrar: {err}", 'danger')
+            finally:
+                if cursor:
+                    cursor.close()
+                conn.close()
+        else:
+            flash('Erro ao conectar ao banco de dados.', 'danger')
+
+    return render_template('Cadastro.html')
+
+
+@app.route('/interface')
+@login_required
+def interface():
+    return render_template('interface.html', username=session['username'])
+
+
+@app.route('/notas')
+@login_required
+def notas():
+    return render_template('Interface.notas.html', username=session['username'])
+
+
+@app.route('/nota')
+@login_required
+def nota():
+    return render_template('nota.html', username=session['username'])
+
+
+@app.route('/flashcards')
+@login_required
+def flashcards():
+    return render_template('interface.flashcard1.html', username=session['username'])
+
+
+@app.route('/flashcards2')
+@login_required
+def flashcards2():
+    return render_template('interface.flashcard2.html', username=session['username'])
+
+
+@app.route('/flashcards3')
+@login_required
+def flashcards3():
+    return render_template('interface.flashcard3.html', username=session['username'])
+
+
+@app.route('/calendario')
+@login_required
+def calendario():
+    return render_template('calendario.html', username=session['username'])
+
+
+@app.route('/grafos')
+@login_required
+def grafos():
+    return render_template('grafos.html', username=session['username'])
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -114,7 +200,7 @@ def login():
 
     if 'user_id' in session:
         return redirect(url_for('dashboard'))
-    return render_template('Login.html')
+    return render_template('login.html')
 
 
 @app.route('/logout')
@@ -406,5 +492,152 @@ def view_calendar():
     return redirect(url_for('dashboard'))
 
 
+@app.route('/api/flashcards', methods=['GET', 'POST'])
+@login_required
+def api_flashcards():
+    user_id = session['user_id']
+    conn = get_db_connection()
+    
+    if request.method == 'POST':
+        data = request.get_json()
+        nota_id = data.get('nota_id')
+        front_content = data.get('front_content')
+        back_content = data.get('back_content')
+        
+        if conn:
+            try:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "INSERT INTO flashcards (nota_id, front_content, back_content) VALUES (%s, %s, %s)",
+                    (nota_id, front_content, back_content)
+                )
+                conn.commit()
+                flashcard_id = cursor.lastrowid
+                return jsonify({'success': True, 'flashcard_id': flashcard_id})
+            except mysql.connector.Error as err:
+                return jsonify({'success': False, 'error': str(err)})
+            finally:
+                cursor.close()
+                conn.close()
+    
+    else:  # GET
+        nota_id = request.args.get('nota_id')
+        if conn:
+            try:
+                cursor = conn.cursor(dictionary=True)
+                if nota_id:
+                    cursor.execute(
+                        "SELECT f.* FROM flashcards f JOIN notas n ON f.nota_id = n.id WHERE n.user_id = %s AND f.nota_id = %s",
+                        (user_id, nota_id)
+                    )
+                else:
+                    cursor.execute(
+                        "SELECT f.* FROM flashcards f JOIN notas n ON f.nota_id = n.id WHERE n.user_id = %s",
+                        (user_id,)
+                    )
+                flashcards = cursor.fetchall()
+                return jsonify({'success': True, 'flashcards': flashcards})
+            except mysql.connector.Error as err:
+                return jsonify({'success': False, 'error': str(err)})
+            finally:
+                cursor.close()
+                conn.close()
+    
+    return jsonify({'success': False, 'error': 'Erro de conexão com o banco de dados'})
+
+
+@app.route('/api/tasks', methods=['GET', 'POST'])
+@login_required
+def api_tasks():
+    user_id = session['user_id']
+    conn = get_db_connection()
+    
+    if request.method == 'POST':
+        data = request.get_json()
+        title = data.get('title')
+        description = data.get('description', '')
+        due_date = data.get('due_date')
+        recurring = data.get('recurring', False)
+        recurrence_rule = data.get('recurrence_rule', '')
+        
+        if conn:
+            try:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "INSERT INTO tasks (user_id, title, description, due_date, recurring, recurrence_rule) VALUES (%s, %s, %s, %s, %s, %s)",
+                    (user_id, title, description, due_date, recurring, recurrence_rule)
+                )
+                conn.commit()
+                task_id = cursor.lastrowid
+                return jsonify({'success': True, 'task_id': task_id})
+            except mysql.connector.Error as err:
+                return jsonify({'success': False, 'error': str(err)})
+            finally:
+                cursor.close()
+                conn.close()
+    
+    else:  # GET
+        if conn:
+            try:
+                cursor = conn.cursor(dictionary=True)
+                cursor.execute(
+                    "SELECT * FROM tasks WHERE user_id = %s ORDER BY due_date ASC",
+                    (user_id,)
+                )
+                tasks = cursor.fetchall()
+                return jsonify({'success': True, 'tasks': tasks})
+            except mysql.connector.Error as err:
+                return jsonify({'success': False, 'error': str(err)})
+            finally:
+                cursor.close()
+                conn.close()
+    
+    return jsonify({'success': False, 'error': 'Erro de conexão com o banco de dados'})
+
+
+@app.route('/api/tasks/<int:task_id>', methods=['PUT', 'DELETE'])
+@login_required
+def api_task_detail(task_id):
+    user_id = session['user_id']
+    conn = get_db_connection()
+    
+    if request.method == 'PUT':
+        data = request.get_json()
+        completed = data.get('completed', False)
+        
+        if conn:
+            try:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "UPDATE tasks SET completed = %s WHERE id = %s AND user_id = %s",
+                    (completed, task_id, user_id)
+                )
+                conn.commit()
+                return jsonify({'success': True})
+            except mysql.connector.Error as err:
+                return jsonify({'success': False, 'error': str(err)})
+            finally:
+                cursor.close()
+                conn.close()
+    
+    elif request.method == 'DELETE':
+        if conn:
+            try:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "DELETE FROM tasks WHERE id = %s AND user_id = %s",
+                    (task_id, user_id)
+                )
+                conn.commit()
+                return jsonify({'success': True})
+            except mysql.connector.Error as err:
+                return jsonify({'success': False, 'error': str(err)})
+            finally:
+                cursor.close()
+                conn.close()
+    
+    return jsonify({'success': False, 'error': 'Erro de conexão com o banco de dados'})
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=5000, debug=True)
