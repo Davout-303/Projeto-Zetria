@@ -11,430 +11,479 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 CORS(app)  
 
+
 def get_db_connection():
     try:
-        conexao_bd = mysql.connector.connect(
+        conn = mysql.connector.connect(
             host="localhost",
             user="root",
-            senha="1234",
+            password="1234",
             database="zetria",
             port=3307,
             charset='utf8mb4',
             collation='utf8mb4_unicode_ci'
         )
-        return conexao_bd
-    except mysql.connector.Error as erro_bd:
-        print(f"Erro de conexão com o MySQL: {erro_bd}")
-        flash(f"Erro crítico de conexão com o banco de dados: {erro_bd}", "danger")
+        return conn
+    except mysql.connector.Error as err:
+        print(f"Erro de conexão com o MySQL: {err}")
+        flash(f"Erro crítico de conexão com o banco de dados: {err}", "danger")
         return None
 
-def login_required(funcao_original):
-    @wraps(funcao_original)
-    def funcao_decorada(*args, **kwargs):
-        if 'id_usuario' not in session:
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
             flash('Você precisa fazer login para acessar esta página.', 'warning')
             return redirect(url_for('login'))
-        return funcao_original(*args, **kwargs)
-    return funcao_decorada
+        return f(*args, **kwargs)
+    return decorated_function
 
-def extract_links(conteudo):
-    return re.findall(r"\[\[([^\]]+)\]\]", conteudo)
 
-def extract_tags(conteudo):
-    return re.findall(r"(?:\s|^)
+def extract_links(content):
+    return re.findall(r"\[\[([^\]]+)\]\]", content)
+
+
+def extract_tags(content):
+    return re.findall(r"(?:\s|^)#([a-zA-Z0-9_\-]+)(?:\s|$)", content)
+
 
 @app.route('/')
 def index():
-    if 'id_usuario' in session:
+    if 'user_id' in session:
         return redirect(url_for('dashboard'))
     return redirect(url_for('login'))
+
 
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
     if request.method == 'POST':
-        nome_usuario = request.form['nome_usuario']
-        senha = request.form['senha']
-        confirmar_senha = request.form.get('confirmar_senha', '')
-
-        if senha != confirmar_senha:
+        username = request.form['username']
+        password = request.form['password']
+        confirm_password = request.form.get('confirm_password', '')
+        
+        if password != confirm_password:
             flash('As senhas não coincidem.', 'danger')
             return render_template('Cadastro.html')
-
-        senha_hash = generate_password_hash(senha)
-        conexao_bd = get_db_connection()
-        cursor_db = None
-        if conexao_bd:
+            
+        hashed_password = generate_password_hash(password)
+        conn = get_db_connection()
+        cursor = None
+        if conn:
             try:
-                cursor_db = conexao_bd.cursor_db()
-                cursor_db.execute(
-                    "INSERT INTO usuarios (nome_usuario, hash_senha) VALUES (%s, %s)", (nome_usuario, senha_hash))
-                conexao_bd.commit()
+                cursor = conn.cursor()
+                cursor.execute(
+                    "INSERT INTO usuarios (username, password_hash) VALUES (%s, %s)", (username, hashed_password))
+                conn.commit()
                 flash('Usuário registrado com sucesso! Faça o login.', 'success')
                 return redirect(url_for('login'))
             except mysql.connector.IntegrityError:
                 flash('Nome de usuário já existe.', 'danger')
-            except mysql.connector.Error as erro_bd:
-                flash(f"Erro ao registrar: {erro_bd}", 'danger')
+            except mysql.connector.Error as err:
+                flash(f"Erro ao registrar: {err}", 'danger')
             finally:
-                if cursor_db:
-                    cursor_db.close()
-                conexao_bd.close()
+                if cursor:
+                    cursor.close()
+                conn.close()
         else:
             flash('Erro ao conectar ao banco de dados.', 'danger')
 
     return render_template('Cadastro.html')
 
+
 @app.route('/interface')
 @login_required
 def interface():
-    return render_template('interface.html', nome_usuario=session['nome_usuario'])
+    return render_template('interface.html', username=session['username'])
+
 
 @app.route('/notas')
 @login_required
 def notas():
-    return render_template('Interface.notas.html', nome_usuario=session['nome_usuario'])
+    return render_template('Interface.notas.html', username=session['username'])
+
 
 @app.route('/nota')
 @login_required
 def nota():
-    return render_template('nota.html', nome_usuario=session['nome_usuario'])
+    return render_template('nota.html', username=session['username'])
+
 
 @app.route('/flashcards')
 @login_required
 def flashcards():
-    return render_template('interface.flashcard1.html', nome_usuario=session['nome_usuario'])
+    return render_template('interface.flashcard1.html', username=session['username'])
+
 
 @app.route('/flashcards2')
 @login_required
 def flashcards2():
-    return render_template('interface.flashcard2.html', nome_usuario=session['nome_usuario'])
+    return render_template('interface.flashcard2.html', username=session['username'])
+
 
 @app.route('/flashcards3')
 @login_required
 def flashcards3():
-    return render_template('interface.flashcard3.html', nome_usuario=session['nome_usuario'])
+    return render_template('interface.flashcard3.html', username=session['username'])
+
 
 @app.route('/calendario')
 @login_required
 def calendario():
-    return render_template('calendario.html', nome_usuario=session['nome_usuario'])
+    return render_template('calendario.html', username=session['username'])
+
 
 @app.route('/grafos')
 @login_required
 def grafos():
-    return render_template('grafos.html', nome_usuario=session['nome_usuario'])
+    return render_template('grafos.html', username=session['username'])
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        nome_usuario = request.form['nome_usuario']
-        senha = request.form['senha']
-        senha_hash = generate_password_hash(senha)
-        conexao_bd = get_db_connection()
-        cursor_db = None
-        if conexao_bd:
+        username = request.form['username']
+        password = request.form['password']
+        hashed_password = generate_password_hash(password)
+        conn = get_db_connection()
+        cursor = None
+        if conn:
             try:
-                cursor_db = conexao_bd.cursor_db()
-                cursor_db.execute(
-                    "INSERT INTO usuarios (nome_usuario, hash_senha) VALUES (%s, %s)", (nome_usuario, senha_hash))
-                conexao_bd.commit()
+                cursor = conn.cursor()
+                cursor.execute(
+                    "INSERT INTO usuarios (username, password_hash) VALUES (%s, %s)", (username, hashed_password))
+                conn.commit()
                 flash('Usuário registrado com sucesso! Faça o login.', 'success')
                 return redirect(url_for('login'))
             except mysql.connector.IntegrityError:
                 flash('Nome de usuário já existe.', 'danger')
-            except mysql.connector.Error as erro_bd:
-                flash(f"Erro ao registrar: {erro_bd}", 'danger')
+            except mysql.connector.Error as err:
+                flash(f"Erro ao registrar: {err}", 'danger')
             finally:
-                if cursor_db:
-                    cursor_db.close()
-                conexao_bd.close()
+                if cursor:
+                    cursor.close()
+                conn.close()
         else:
             flash('Erro ao conectar ao banco de dados.', 'danger')
 
     return render_template('register.html')
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        nome_usuario = request.form['nome_usuario']
-        senha = request.form['senha']
-        conexao_bd = get_db_connection()
-        cursor_db = None
-        if conexao_bd:
+        username = request.form['username']
+        password = request.form['password']
+        conn = get_db_connection()
+        cursor = None
+        if conn:
             try:
-                cursor_db = conexao_bd.cursor_db(dictionary=True)
-                cursor_db.execute(
-                    "SELECT * FROM usuarios WHERE nome_usuario = %s", (nome_usuario,))
-                usuario_db = cursor_db.fetchone()
-                if usuario_db and check_password_hash(usuario_db['hash_senha'], senha):
-                    session['id_usuario'] = usuario_db['id_registro']
-                    session['nome_usuario'] = usuario_db['nome_usuario']
+                cursor = conn.cursor(dictionary=True)
+                cursor.execute(
+                    "SELECT * FROM usuarios WHERE username = %s", (username,))
+                user = cursor.fetchone()
+                if user and check_password_hash(user['password_hash'], password):
+                    session['user_id'] = user['id']
+                    session['username'] = user['username']
                     flash('Login bem-sucedido!', 'success')
                     return redirect(url_for('dashboard'))
                 else:
                     flash('Nome de usuário ou senha inválidos.', 'danger')
-            except mysql.connector.Error as erro_bd:
-                flash(f"Erro ao fazer login: {erro_bd}", 'danger')
+            except mysql.connector.Error as err:
+                flash(f"Erro ao fazer login: {err}", 'danger')
             finally:
-                if cursor_db:
-                    cursor_db.close()
-                conexao_bd.close()
+                if cursor:
+                    cursor.close()
+                conn.close()
         else:
             flash('Erro ao conectar ao banco de dados.', 'danger')
 
-    if 'id_usuario' in session:
+    if 'user_id' in session:
         return redirect(url_for('dashboard'))
     return render_template('login.html')
 
+
 @app.route('/logout')
 def logout():
-    session.pop('id_usuario', None)
-    session.pop('nome_usuario', None)
+    session.pop('user_id', None)
+    session.pop('username', None)
     flash('Você saiu da sua conta.', 'info')
     return redirect(url_for('login'))
+
 
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    id_usuario = session['id_usuario']
-    conexao_bd = get_db_connection()
-    notas = []
-    if conexao_bd:
-        cursor_db = conexao_bd.cursor_db(dictionary=True)
+    user_id = session['user_id']
+    conn = get_db_connection()
+    notes = []
+    if conn:
+        cursor = conn.cursor(dictionary=True)
         try:
-            cursor_db.execute(, (id_usuario,))
-            notas = cursor_db.fetchall()
-        except mysql.connector.Error as erro_bd:
-            flash(f"Erro ao buscar notas: {erro_bd}", "danger")
+            cursor.execute("""
+                SELECT id, title, 
+                SUBSTRING(REGEXP_REPLACE(content, '<[^>]*>', ''), 1, 150) as snippet, 
+                updated_at FROM notas 
+                WHERE user_id = %s 
+                ORDER BY updated_at DESC
+            """, (user_id,))
+            notes = cursor.fetchall()
+        except mysql.connector.Error as err:
+            flash(f"Erro ao buscar notas: {err}", "danger")
         finally:
-            cursor_db.close()
-            conexao_bd.close()
+            cursor.close()
+            conn.close()
 
-    return render_template('dashboard.html', nome_usuario=session['nome_usuario'], notes=notas)
+    return render_template('dashboard.html', username=session['username'], notes=notes)
 
-def process_note_links_tags(conexao_bd, cursor_db, id_nota, conteudo):
-    id_usuario = session['id_usuario']
-    titulos_notas_ligadas = extract_links(conteudo)
-    ids_notas_destino = []
-    if titulos_notas_ligadas:
-        strings_formato = ','.join(['%s'] * len(titulos_notas_ligadas))
-        consulta = f"SELECT id_registro FROM notas WHERE id_usuario = %s AND titulo IN ({strings_formato})"
-        parametros = [id_usuario] + titulos_notas_ligadas
-        cursor_db.execute(consulta, parametros)
-        notas_destino = cursor_db.fetchall()
-        ids_notas_destino = [nota[0] for nota in notas_destino]
 
-    cursor_db.execute(
-        "DELETE FROM links_notas WHERE id_nota_origem = %s", (id_nota,))
-    if ids_notas_destino:
-        dados_link = [(id_nota, id_destino)
-                      for id_destino in ids_notas_destino if id_destino != id_nota]
-        if dados_link:
-            cursor_db.executemany(
-                "INSERT IGNORE INTO links_notas (id_nota_origem, id_nota_destino) VALUES (%s, %s)", dados_link)
+def process_note_links_tags(conn, cursor, note_id, content):
+    user_id = session['user_id']
+    linked_note_titles = extract_links(content)
+    target_note_ids = []
+    if linked_note_titles:
+        format_strings = ','.join(['%s'] * len(linked_note_titles))
+        query = f"SELECT id FROM notas WHERE user_id = %s AND title IN ({format_strings})"
+        params = [user_id] + linked_note_titles
+        cursor.execute(query, params)
+        target_notes = cursor.fetchall()
+        target_note_ids = [note[0] for note in target_notes]
 
-    nomes_etiquetas = list(set(extract_tags(conteudo)))
-    ids_etiquetas = []
-    for nome_etiqueta in nomes_etiquetas:
-        cursor_db.execute(
-            "INSERT IGNORE INTO etiquetas (name) VALUES (%s)", (nome_etiqueta,))
-        cursor_db.execute("SELECT id_registro FROM etiquetas WHERE name = %s", (nome_etiqueta,))
-        resultado_id_etiqueta = cursor_db.fetchone()
-        if resultado_id_etiqueta:
-            ids_etiquetas.append(resultado_id_etiqueta[0])
+    cursor.execute(
+        "DELETE FROM links_notas WHERE source_nota_id = %s", (note_id,))
+    if target_note_ids:
+        link_data = [(note_id, target_id)
+                     for target_id in target_note_ids if target_id != note_id]
+        if link_data:
+            cursor.executemany(
+                "INSERT IGNORE INTO links_notas (source_nota_id, target_nota_id) VALUES (%s, %s)", link_data)
 
-    cursor_db.execute("DELETE FROM nota_tags WHERE nota_id = %s", (id_nota,))
-    if ids_etiquetas:
-        dados_link_etiquetas = [(id_nota, id_tag) for id_tag in ids_etiquetas]
-        cursor_db.executemany(
-            "INSERT IGNORE INTO nota_tags (nota_id, tag_id) VALUES (%s, %s)", dados_link_etiquetas)
+    tag_names = list(set(extract_tags(content)))
+    tag_ids = []
+    for tag_name in tag_names:
+        cursor.execute(
+            "INSERT IGNORE INTO tags (name) VALUES (%s)", (tag_name,))
+        cursor.execute("SELECT id FROM tags WHERE name = %s", (tag_name,))
+        tag_id_result = cursor.fetchone()
+        if tag_id_result:
+            tag_ids.append(tag_id_result[0])
+
+    cursor.execute("DELETE FROM nota_tags WHERE nota_id = %s", (note_id,))
+    if tag_ids:
+        tag_link_data = [(note_id, tag_id) for tag_id in tag_ids]
+        cursor.executemany(
+            "INSERT IGNORE INTO nota_tags (nota_id, tag_id) VALUES (%s, %s)", tag_link_data)
+
 
 @app.route('/notessave', methods=['POST'])
 @login_required
 def save_note():
-    id_usuario = session['id_usuario']
-    titulo = request.form['titulo']
-    conteudo = request.form['conteudo']
-    conexao_bd = get_db_connection()
-    cursor_db = None
-    if conexao_bd:
+    user_id = session['user_id']
+    title = request.form['title']
+    content = request.form['content']
+    conn = get_db_connection()
+    cursor = None
+    if conn:
         try:
-            cursor_db = conexao_bd.cursor_db()
-            cursor_db.execute(
-                "INSERT INTO notas (id_usuario, titulo, conteudo) VALUES (%s, %s, %s)", (id_usuario, titulo, conteudo))
-            id_nota = cursor_db.lastrowid
-            process_note_links_tags(conexao_bd, cursor_db, id_nota, conteudo)
-            conexao_bd.commit()
+            cursor = conn.cursor()
+            cursor.execute(
+                "INSERT INTO notas (user_id, title, content) VALUES (%s, %s, %s)", (user_id, title, content))
+            note_id = cursor.lastrowid
+            process_note_links_tags(conn, cursor, note_id, content)
+            conn.commit()
             flash('Nota salva com sucesso!', 'success')
-        except mysql.connector.Error as erro_bd:
-            flash(f"Erro ao salvar nota: {erro_bd}", "danger")
-            conexao_bd.rollback()
+        except mysql.connector.Error as err:
+            flash(f"Erro ao salvar nota: {err}", "danger")
+            conn.rollback()
         finally:
-            cursor_db.close()
-            conexao_bd.close()
+            cursor.close()
+            conn.close()
     else:
         flash('Erro ao conectar ao banco de dados para salvar nota.', 'danger')
 
     return redirect(url_for('dashboard'))
 
-@app.route('/notes<int:id_nota>')
+
+@app.route('/notes<int:note_id>')
 @login_required
-def view_note(id_nota):
-    id_usuario = session['id_usuario']
-    conexao_bd = get_db_connection()
-    nota, etiquetas, notas_linkadas, notas_que_linkam = None, [], [], []
-    if conexao_bd:
-        cursor_db = conexao_bd.cursor_db(dictionary=True)
+def view_note(note_id):
+    user_id = session['user_id']
+    conn = get_db_connection()
+    note, tags, linked_notes, linking_notes = None, [], [], []
+    if conn:
+        cursor = conn.cursor(dictionary=True)
         try:
-            cursor_db.execute(
-                "SELECT * FROM notas WHERE id_registro = %s AND id_usuario = %s", (id_nota, id_usuario))
-            nota = cursor_db.fetchone()
-            if not nota:
+            cursor.execute(
+                "SELECT * FROM notas WHERE id = %s AND user_id = %s", (note_id, user_id))
+            note = cursor.fetchone()
+            if not note:
                 flash('Nota não encontrada ou acesso não permitido.', 'warning')
                 return redirect(url_for('dashboard'))
 
-            cursor_db.execute(
-                "SELECT etiqueta_item.name FROM etiquetas etiqueta_item JOIN nota_tags nota_etiqueta_item ON etiqueta_item.id_registro = nota_etiqueta_item.tag_id WHERE nota_etiqueta_item.nota_id = %s", (id_nota,))
-            etiquetas = [linha['name'] for linha in cursor_db.fetchall()]
+            cursor.execute(
+                "SELECT t.name FROM tags t JOIN nota_tags nt ON t.id = nt.tag_id WHERE nt.nota_id = %s", (note_id,))
+            tags = [row['name'] for row in cursor.fetchall()]
 
-            cursor_db.execute(
-                "SELECT nota_item.id_registro, nota_item.titulo FROM notas nota_item JOIN links_notas link_nota_item ON nota_item.id_registro = link_nota_item.id_nota_destino WHERE link_nota_item.id_nota_origem = %s", (id_nota,))
-            notas_linkadas = cursor_db.fetchall()
+            cursor.execute(
+                "SELECT n.id, n.title FROM notas n JOIN links_notas ln ON n.id = ln.target_nota_id WHERE ln.source_nota_id = %s", (note_id,))
+            linked_notes = cursor.fetchall()
 
-            cursor_db.execute(
-                "SELECT nota_item.id_registro, nota_item.titulo FROM notas nota_item JOIN links_notas link_nota_item ON nota_item.id_registro = link_nota_item.id_nota_origem WHERE link_nota_item.id_nota_destino = %s", (id_nota,))
-            notas_que_linkam = cursor_db.fetchall()
-        except mysql.connector.Error as erro_bd:
-            flash(f"Erro ao buscar detalhes da nota: {erro_bd}", "danger")
+            cursor.execute(
+                "SELECT n.id, n.title FROM notas n JOIN links_notas ln ON n.id = ln.source_nota_id WHERE ln.target_nota_id = %s", (note_id,))
+            linking_notes = cursor.fetchall()
+        except mysql.connector.Error as err:
+            flash(f"Erro ao buscar detalhes da nota: {err}", "danger")
         finally:
-            cursor_db.close()
-            conexao_bd.close()
+            cursor.close()
+            conn.close()
     else:
         flash('Erro ao conectar ao banco de dados.', 'danger')
 
-    return render_template('view_note.html', note=nota, etiquetas=etiquetas, notas_ligadas=notas_linkadas, notas_que_ligam=notas_que_linkam)
+    return render_template('view_note.html', note=note, tags=tags, linked_notes=linked_notes, linking_notes=linking_notes)
 
-@app.route('/notesedit<int:id_nota>', methods=['GET', 'POST'])
+
+@app.route('/notesedit<int:note_id>', methods=['GET', 'POST'])
 @login_required
-def edit_note(id_nota):
-    id_usuario = session['id_usuario']
-    conexao_bd = get_db_connection()
-    if not conexao_bd:
+def edit_note(note_id):
+    user_id = session['user_id']
+    conn = get_db_connection()
+    if not conn:
         flash('Erro ao conectar ao banco de dados.', 'danger')
         return redirect(url_for('dashboard'))
 
-    cursor_db = conexao_bd.cursor_db(dictionary=True)
+    cursor = conn.cursor(dictionary=True)
     try:
-        cursor_db.execute(
-            "SELECT * FROM notas WHERE id_registro = %s AND id_usuario = %s", (id_nota, id_usuario))
-        nota = cursor_db.fetchone()
-        if not nota:
+        cursor.execute(
+            "SELECT * FROM notas WHERE id = %s AND user_id = %s", (note_id, user_id))
+        note = cursor.fetchone()
+        if not note:
             flash('Nota não encontrada ou acesso não permitido.', 'warning')
             return redirect(url_for('dashboard'))
 
         if request.method == 'POST':
-            titulo = request.form['titulo']
-            conteudo = request.form['conteudo']
-            cursor_db.execute(
-                "UPDATE notas SET titulo = %s, conteudo = %s WHERE id_registro = %s", (titulo, conteudo, id_nota))
-            process_note_links_tags(conexao_bd, cursor_db, id_nota, conteudo)
-            conexao_bd.commit()
+            title = request.form['title']
+            content = request.form['content']
+            cursor.execute(
+                "UPDATE notas SET title = %s, content = %s WHERE id = %s", (title, content, note_id))
+            process_note_links_tags(conn, cursor, note_id, content)
+            conn.commit()
             flash('Nota atualizada com sucesso!', 'success')
-            return redirect(url_for('view_note', id_nota=id_nota))
-    except mysql.connector.Error as erro_bd:
-        flash(f"Erro ao editar nota: {erro_bd}", "danger")
-        conexao_bd.rollback()
+            return redirect(url_for('view_note', note_id=note_id))
+    except mysql.connector.Error as err:
+        flash(f"Erro ao editar nota: {err}", "danger")
+        conn.rollback()
     finally:
-        cursor_db.close()
-        conexao_bd.close()
+        cursor.close()
+        conn.close()
 
-    return render_template('edit_note.html', note=nota)
+    return render_template('edit_note.html', note=note)
 
-@app.route('/notesdelete<int:id_nota>', methods=['POST'])
+
+@app.route('/notesdelete<int:note_id>', methods=['POST'])
 @login_required
-def delete_note(id_nota):
-    id_usuario = session['id_usuario']
-    conexao_bd = get_db_connection()
-    if not conexao_bd:
+def delete_note(note_id):
+    user_id = session['user_id']
+    conn = get_db_connection()
+    if not conn:
         flash('Erro ao conectar ao banco de dados.', 'danger')
         return redirect(url_for('dashboard'))
 
-    cursor_db = conexao_bd.cursor_db()
+    cursor = conn.cursor()
     try:
-        cursor_db.execute(
-            "DELETE FROM notas WHERE id_registro = %s AND id_usuario = %s", (id_nota, id_usuario))
-        conexao_bd.commit()
-        if cursor_db.rowcount > 0:
+        cursor.execute(
+            "DELETE FROM notas WHERE id = %s AND user_id = %s", (note_id, user_id))
+        conn.commit()
+        if cursor.rowcount > 0:
             flash('Nota excluída com sucesso!', 'success')
         else:
             flash('Nota não encontrada ou acesso não permitido.', 'warning')
-    except mysql.connector.Error as erro_bd:
-        flash(f"Erro ao excluir nota: {erro_bd}", "danger")
-        conexao_bd.rollback()
+    except mysql.connector.Error as err:
+        flash(f"Erro ao excluir nota: {err}", "danger")
+        conn.rollback()
     finally:
-        cursor_db.close()
-        conexao_bd.close()
+        cursor.close()
+        conn.close()
 
     return redirect(url_for('dashboard'))
+
 
 @app.route('/search')
 @login_required
 def search_notes():
-    id_usuario = session['id_usuario']
-    consulta = request.args.get('q', '/')
-    resultados = []
-    conexao_bd = get_db_connection()
-    if conexao_bd and consulta:
+    user_id = session['user_id']
+    query = request.args.get('q', '/')
+    results = []
+    conn = get_db_connection()
+    if conn and query:
         try:
-            cursor_db = conexao_bd.cursor_db(dictionary=True)
-            termo_busca = f"%{consulta}%"
-            sql_consulta = 
-            cursor_db.execute(sql_consulta, (id_usuario, termo_busca, termo_busca, consulta))
-            resultados = cursor_db.fetchall()
-        except mysql.connector.Error as erro_bd:
-            flash(f"Erro ao buscar notas: {erro_bd}", "danger")
+            cursor = conn.cursor(dictionary=True)
+            search_term = f"%{query}%"
+            sql = """
+                SELECT DISTINCT n.id, n.title, 
+                SUBSTRING(REGEXP_REPLACE(n.content, '<[^>]*>', ''), 1, 150) as snippet, n.updated_at
+                FROM notas n
+                LEFT JOIN nota_tags nt ON n.id = nt.nota_id
+                LEFT JOIN tags t ON nt.tag_id = t.id
+                WHERE n.user_id = %s AND (
+                    n.title LIKE %s OR n.content LIKE %s OR t.name = %s
+                )
+                ORDER BY n.updated_at DESC
+            """
+            cursor.execute(sql, (user_id, search_term, search_term, query))
+            results = cursor.fetchall()
+        except mysql.connector.Error as err:
+            flash(f"Erro ao buscar notas: {err}", "danger")
         finally:
-            cursor_db.close()
-            conexao_bd.close()
+            cursor.close()
+            conn.close()
 
-    return render_template('search_results.html', consulta=consulta, resultados=resultados)
+    return render_template('search_results.html', query=query, results=results)
+
 
 @app.route('/graph')
 @login_required
 def view_graph():
     return render_template('graph.html')
 
+
 @app.route('/graph_data')
 @login_required
 def graph_data():
-    id_usuario = session['id_usuario']
-    nos, arestas = [], []
-    conexao_bd = get_db_connection()
-    if conexao_bd:
+    user_id = session['user_id']
+    nodes, edges = [], []
+    conn = get_db_connection()
+    if conn:
         try:
-            cursor_db = conexao_bd.cursor_db(dictionary=True)
-            cursor_db.execute(
-                "SELECT id_registro, titulo FROM notas WHERE id_usuario = %s", (id_usuario,))
-            notas = cursor_db.fetchall()
-            nos = [{'id_registro': nota_item['id_registro'], 'rotulo': nota_item['titulo']} for nota_item in notas]
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute(
+                "SELECT id, title FROM notas WHERE user_id = %s", (user_id,))
+            notes = cursor.fetchall()
+            nodes = [{'id': n['id'], 'label': n['title']} for n in notes]
 
-            cursor_db.execute(, (id_usuario,))
-            links = cursor_db.fetchall()
-            arestas = [{'from': l['id_nota_origem'],
-                        'to': l['id_nota_destino']} for l in links]
-        except mysql.connector.Error as erro_bd:
-            print(f"Erro ao buscar dados do grafo: {erro_bd}")
+            cursor.execute("""
+                SELECT ln.source_nota_id, ln.target_nota_id
+                FROM links_notas ln
+                JOIN notas n ON ln.source_nota_id = n.id
+                WHERE n.user_id = %s
+            """, (user_id,))
+            links = cursor.fetchall()
+            edges = [{'from': l['source_nota_id'],
+                      'to': l['target_nota_id']} for l in links]
+        except mysql.connector.Error as err:
+            print(f"Erro ao buscar dados do grafo: {err}")
         finally:
-            cursor_db.close()
-            conexao_bd.close()
+            cursor.close()
+            conn.close()
 
-    return jsonify({'nos': nos, 'arestas': arestas})
+    return jsonify({'nodes': nodes, 'edges': edges})
 
-@app.route('/notes<int:id_nota>flashcards')
+
+@app.route('/notes<int:note_id>flashcards')
 @login_required
-def view_flashcards(id_nota):
+def view_flashcards(note_id):
     flash('Funcionalidade de Flashcards ainda não implementada.', 'info')
-    return redirect(url_for('view_note', id_nota=id_nota))
+    return redirect(url_for('view_note', note_id=note_id))
+
 
 @app.route('/calendar')
 @login_required
@@ -442,149 +491,153 @@ def view_calendar():
     flash('Funcionalidade de Calendário/Tarefas ainda não implementada.', 'info')
     return redirect(url_for('dashboard'))
 
+
 @app.route('/api/flashcards', methods=['GET', 'POST'])
 @login_required
 def api_flashcards():
-    id_usuario = session['id_usuario']
-    conexao_bd = get_db_connection()
-
+    user_id = session['user_id']
+    conn = get_db_connection()
+    
     if request.method == 'POST':
-        dados = request.get_json()
-        id_nota = dados.get('nota_id')
-        conteudo_frente = dados.get('front_content')
-        conteudo_verso = dados.get('back_content')
-
-        if conexao_bd:
+        data = request.get_json()
+        nota_id = data.get('nota_id')
+        front_content = data.get('front_content')
+        back_content = data.get('back_content')
+        
+        if conn:
             try:
-                cursor_db = conexao_bd.cursor_db()
-                cursor_db.execute(
+                cursor = conn.cursor()
+                cursor.execute(
                     "INSERT INTO flashcards (nota_id, front_content, back_content) VALUES (%s, %s, %s)",
-                    (id_nota, conteudo_frente, conteudo_verso)
+                    (nota_id, front_content, back_content)
                 )
-                conexao_bd.commit()
-                id_flashcard = cursor_db.lastrowid
-                return jsonify({'success': True, 'flashcard_id': id_flashcard})
-            except mysql.connector.Error as erro_bd:
-                return jsonify({'success': False, 'error': str(erro_bd)})
+                conn.commit()
+                flashcard_id = cursor.lastrowid
+                return jsonify({'success': True, 'flashcard_id': flashcard_id})
+            except mysql.connector.Error as err:
+                return jsonify({'success': False, 'error': str(err)})
             finally:
-                cursor_db.close()
-                conexao_bd.close()
-
-    else: 
-        id_nota = request.args.get('nota_id')
-        if conexao_bd:
+                cursor.close()
+                conn.close()
+    
+    else:  # GET
+        nota_id = request.args.get('nota_id')
+        if conn:
             try:
-                cursor_db = conexao_bd.cursor_db(dictionary=True)
-                if id_nota:
-                    cursor_db.execute(
-                        "SELECT f.* FROM flashcards f JOIN notas nota_item ON f.nota_id = nota_item.id_registro WHERE nota_item.id_usuario = %s AND f.nota_id = %s",
-                        (id_usuario, id_nota)
+                cursor = conn.cursor(dictionary=True)
+                if nota_id:
+                    cursor.execute(
+                        "SELECT f.* FROM flashcards f JOIN notas n ON f.nota_id = n.id WHERE n.user_id = %s AND f.nota_id = %s",
+                        (user_id, nota_id)
                     )
                 else:
-                    cursor_db.execute(
-                        "SELECT f.* FROM flashcards f JOIN notas nota_item ON f.nota_id = nota_item.id_registro WHERE nota_item.id_usuario = %s",
-                        (id_usuario,)
+                    cursor.execute(
+                        "SELECT f.* FROM flashcards f JOIN notas n ON f.nota_id = n.id WHERE n.user_id = %s",
+                        (user_id,)
                     )
-                flashcards = cursor_db.fetchall()
+                flashcards = cursor.fetchall()
                 return jsonify({'success': True, 'flashcards': flashcards})
-            except mysql.connector.Error as erro_bd:
-                return jsonify({'success': False, 'error': str(erro_bd)})
+            except mysql.connector.Error as err:
+                return jsonify({'success': False, 'error': str(err)})
             finally:
-                cursor_db.close()
-                conexao_bd.close()
-
+                cursor.close()
+                conn.close()
+    
     return jsonify({'success': False, 'error': 'Erro de conexão com o banco de dados'})
+
 
 @app.route('/api/tasks', methods=['GET', 'POST'])
 @login_required
 def api_tasks():
-    id_usuario = session['id_usuario']
-    conexao_bd = get_db_connection()
-
+    user_id = session['user_id']
+    conn = get_db_connection()
+    
     if request.method == 'POST':
-        dados = request.get_json()
-        titulo = dados.get('titulo')
-        descricao = dados.get('description', '')
-        data_vencimento = dados.get('due_date')
-        recorrente = dados.get('recurring', False)
-        regra_recorrencia = dados.get('recurrence_rule', '')
-
-        if conexao_bd:
+        data = request.get_json()
+        title = data.get('title')
+        description = data.get('description', '')
+        due_date = data.get('due_date')
+        recurring = data.get('recurring', False)
+        recurrence_rule = data.get('recurrence_rule', '')
+        
+        if conn:
             try:
-                cursor_db = conexao_bd.cursor_db()
-                cursor_db.execute(
-                    "INSERT INTO tasks (id_usuario, titulo, description, due_date, recurring, recurrence_rule) VALUES (%s, %s, %s, %s, %s, %s)",
-                    (id_usuario, titulo, descricao, data_vencimento, recorrente, regra_recorrencia)
+                cursor = conn.cursor()
+                cursor.execute(
+                    "INSERT INTO tasks (user_id, title, description, due_date, recurring, recurrence_rule) VALUES (%s, %s, %s, %s, %s, %s)",
+                    (user_id, title, description, due_date, recurring, recurrence_rule)
                 )
-                conexao_bd.commit()
-                id_tarefa = cursor_db.lastrowid
-                return jsonify({'success': True, 'task_id': id_tarefa})
-            except mysql.connector.Error as erro_bd:
-                return jsonify({'success': False, 'error': str(erro_bd)})
+                conn.commit()
+                task_id = cursor.lastrowid
+                return jsonify({'success': True, 'task_id': task_id})
+            except mysql.connector.Error as err:
+                return jsonify({'success': False, 'error': str(err)})
             finally:
-                cursor_db.close()
-                conexao_bd.close()
-
-    else: 
-        if conexao_bd:
+                cursor.close()
+                conn.close()
+    
+    else:  # GET
+        if conn:
             try:
-                cursor_db = conexao_bd.cursor_db(dictionary=True)
-                cursor_db.execute(
-                    "SELECT * FROM tasks WHERE id_usuario = %s ORDER BY due_date ASC",
-                    (id_usuario,)
+                cursor = conn.cursor(dictionary=True)
+                cursor.execute(
+                    "SELECT * FROM tasks WHERE user_id = %s ORDER BY due_date ASC",
+                    (user_id,)
                 )
-                tarefas = cursor_db.fetchall()
-                return jsonify({'success': True, 'tasks': tarefas})
-            except mysql.connector.Error as erro_bd:
-                return jsonify({'success': False, 'error': str(erro_bd)})
+                tasks = cursor.fetchall()
+                return jsonify({'success': True, 'tasks': tasks})
+            except mysql.connector.Error as err:
+                return jsonify({'success': False, 'error': str(err)})
             finally:
-                cursor_db.close()
-                conexao_bd.close()
-
+                cursor.close()
+                conn.close()
+    
     return jsonify({'success': False, 'error': 'Erro de conexão com o banco de dados'})
+
 
 @app.route('/api/tasks/<int:task_id>', methods=['PUT', 'DELETE'])
 @login_required
 def api_task_detail(task_id):
-    id_usuario = session['id_usuario']
-    conexao_bd = get_db_connection()
-
+    user_id = session['user_id']
+    conn = get_db_connection()
+    
     if request.method == 'PUT':
-        dados = request.get_json()
-        concluida = dados.get('completed', False)
-
-        if conexao_bd:
+        data = request.get_json()
+        completed = data.get('completed', False)
+        
+        if conn:
             try:
-                cursor_db = conexao_bd.cursor_db()
-                cursor_db.execute(
-                    "UPDATE tasks SET completed = %s WHERE id_registro = %s AND id_usuario = %s",
-                    (concluida, task_id, id_usuario)
+                cursor = conn.cursor()
+                cursor.execute(
+                    "UPDATE tasks SET completed = %s WHERE id = %s AND user_id = %s",
+                    (completed, task_id, user_id)
                 )
-                conexao_bd.commit()
+                conn.commit()
                 return jsonify({'success': True})
-            except mysql.connector.Error as erro_bd:
-                return jsonify({'success': False, 'error': str(erro_bd)})
+            except mysql.connector.Error as err:
+                return jsonify({'success': False, 'error': str(err)})
             finally:
-                cursor_db.close()
-                conexao_bd.close()
-
+                cursor.close()
+                conn.close()
+    
     elif request.method == 'DELETE':
-        if conexao_bd:
+        if conn:
             try:
-                cursor_db = conexao_bd.cursor_db()
-                cursor_db.execute(
-                    "DELETE FROM tasks WHERE id_registro = %s AND id_usuario = %s",
-                    (task_id, id_usuario)
+                cursor = conn.cursor()
+                cursor.execute(
+                    "DELETE FROM tasks WHERE id = %s AND user_id = %s",
+                    (task_id, user_id)
                 )
-                conexao_bd.commit()
+                conn.commit()
                 return jsonify({'success': True})
-            except mysql.connector.Error as erro_bd:
-                return jsonify({'success': False, 'error': str(erro_bd)})
+            except mysql.connector.Error as err:
+                return jsonify({'success': False, 'error': str(err)})
             finally:
-                cursor_db.close()
-                conexao_bd.close()
-
+                cursor.close()
+                conn.close()
+    
     return jsonify({'success': False, 'error': 'Erro de conexão com o banco de dados'})
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
