@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Botões da barra lateral
+  
   const grafosBtn = document.getElementById("grafos-btn");
   const decksBtn = document.getElementById("decks-btn");
   const calendarioBtn = document.getElementById("calendario-btn");
@@ -29,15 +29,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Controle do menu lateral
+  
   const menuToggle = document.getElementById("menuToggle");
   const sidebar = document.getElementById("sidebar");
 
   menuToggle.addEventListener("click", () => {
-    sidebar.classList.toggle("active");
+    sidebar.classList.toggle("ativo");
 
     const icon = menuToggle.querySelector("i");
-    if (sidebar.classList.contains("active")) {
+    if (sidebar.classList.contains("ativo")) {
       icon.classList.remove("fa-bars");
       icon.classList.add("fa-times");
     } else {
@@ -46,12 +46,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Fecha o menu ao clicar em um item (modo mobile)
+  
   const sidebarItems = document.querySelectorAll(".sidebar-item");
   sidebarItems.forEach((item) => {
     item.addEventListener("click", () => {
       if (window.innerWidth <= 768) {
-        sidebar.classList.remove("active");
+        sidebar.classList.remove("ativo");
         const icon = menuToggle.querySelector("i");
         icon.classList.remove("fa-times");
         icon.classList.add("fa-bars");

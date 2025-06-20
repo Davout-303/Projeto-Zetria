@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
 
-  // Fecha o menu ao clicar em um item (modo mobile)
+ 
   const sidebarItems = document.querySelectorAll(".sidebar-item");
   sidebarItems.forEach((item) => {
     item.addEventListener("click", () => {

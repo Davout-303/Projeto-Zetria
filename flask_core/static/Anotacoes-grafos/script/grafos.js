@@ -1,6 +1,6 @@
-// script.js
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Criar nós
+  
     const nodes = new vis.DataSet([
         { id: 1, label: "Primeira guerra", shape: "hexagon", color: { background: "#FFE600", border: "#FFE600" } },
         { id: 2, label: "Segunda guerra", shape: "hexagon", color: { background: "#FFE600", border: "#FFE600" } },
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: 6, label: "Aristóteles", shape: "hexagon", color: { background: "#FFE600", border: "#FFE600" } },
     ]);
 
-    // Criar arestas
+    
     const edges = new vis.DataSet([
         { from: 1, to: 2, color: { color: "#FFE600" } },
         { from: 1, to: 3, color: { color: "#FFE600" } },
@@ -18,36 +18,36 @@ document.addEventListener('DOMContentLoaded', function() {
         { from: 6, to: 5, color: { color: "#FFE600" } },
     ]);
 
-    // Configurar o container
-    const container = document.getElementById("graph");
-    const data = { nodes, edges };
+    
+    const container = document.getElementById("grafo");
+    const data = { nodes, borda };
     const options = {
         nodes: {
-            shape: "hexagon",
+            shape: "hexagono",
             size: 20,
             font: { color: "#ffffff", size: 12 },
             borderWidth: 2,
         },
-        edges: {
+        borda: {
             width: 2,
-            smooth: { type: "continuous" },
+            smooth: { type: "contínuo" },
         },
-        physics: {
+        fisica: {
             stabilization: { iterations: 100 },
             repulsion: { nodeDistance: 150 },
         },
         layout: { 
             randomSeed: 42,
         },
-        interaction: {
+        interacao: {
             hover: true,
         }
     };
 
-    // Criar a rede
+    
     const network = new vis.Network(container, data, options);
 
-    // Adicionar evento de clique
+    
     network.on("click", function(params) {
         if (params.nodes.length > 0) {
             const nodeId = params.nodes[0];

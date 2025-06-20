@@ -2,13 +2,173 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard - NoteWise</title>
+    <title>Dashboard - Zetria</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Interface-Inicial/style/interface.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Interface-Inicial/style/navbar.css') }}">
 </head>
 <body>
-<div class="container">
-    <h2>Bem-vindo(a), {{ username }}!</h2>
-    <a href="/logout" class="button">Logout</a>
-</div>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h2>Zetria</h2>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('notas') }}">Notas</a>
+            <a href="{{ url_for('flashcards') }}">Flashcards</a>
+            <a href="{{ url_for('calendario') }}">Calendário</a>
+            <a href="{{ url_for('grafos') }}">Grafos</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="welcome-section">
+            <h1>Bem-vindo(a), {{ username }}!</h1>
+            <p>Gerencie suas notas, flashcards e tarefas de forma inteligente.</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3>Suas Notas Recentes</h3>
+                {% if notes %}
+                    <div class="notes-list">
+                        {% for note in notes %}
+                            <div class="note-item">
+                                <h4><a href="{{ url_for('view_note', note_id=note.id) }}">{{ note.title }}</a></h4>
+                                <p>{{ note.snippet }}...</p>
+                                <small>Atualizada em: {{ note.updated_at.strftime('%d/%m/%Y %H:%M') }}</small>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>Você ainda não tem notas. <a href="{{ url_for('notas') }}">Criar primeira nota</a></p>
+                {% endif %}
+            </div>
+
+            <div class="card">
+                <h3>Ações Rápidas</h3>
+                <div class="quick-actions">
+                    <a href="{{ url_for('nota') }}" class="action-btn">Nova Nota</a>
+                    <a href="{{ url_for('flashcards') }}" class="action-btn">Estudar Flashcards</a>
+                    <a href="{{ url_for('calendario') }}" class="action-btn">Ver Tarefas</a>
+                    <a href="{{ url_for('grafos') }}" class="action-btn">Visualizar Grafos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .notes-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .note-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+        
+        .note-item:last-child {
+            border-bottom: none;
+        }
+        
+        .note-item h4 {
+            margin: 0 0 5px 0;
+        }
+        
+        .note-item a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .note-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            display: block;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+            transition: background 0.3s;
+        }
+        
+        .action-btn:hover {
+            background: #0056b3;
+        }
+        
+        .alert {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
 </body>
 </html>

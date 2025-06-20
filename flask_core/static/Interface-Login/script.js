@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (Login) {
     Login.addEventListener("click", function () {
       event.preventDefault();
-      window.location.href = "../Interface-Inicial/interface.html";
+      window.localizacao.href = "../Interface-Inicial/interface.html";
     });
   }
 

@@ -6,9 +6,8 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>NoteWise</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='{{ url_for("static", filename="Interface-Login/style.css") }}'>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <script src="./static/Interface-Login/script.js"></script>
 </head>
 
 <body>
@@ -16,29 +15,32 @@
         <div class="left-login">
             <h1>Boas vindas ao Zetria!<br>
                 Para continuar faça login na sua conta.</h1>
-            <img src="imgs/img-login.png" class="left-login-img" alt="img-login">
+            <img src="{{ url_for('static', filename='Interface-Login/imgs/img-login.png') }}" class="left-login-img" alt="img-login">
         </div>
         <div class="right-login">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
 
-            <form class="r-card-login">
+            <form class="r-card-login" method="POST" action="{{ url_for('login') }}">
                 <h1>Login</h1>
                 <div class="textfield">
-                    <label for="usuario">Usuário</label>
-                    <input type="text" name="usuario" placeholder="Usuário">
+                    <label for="username">Usuário</label>
+                    <input type="text" name="username" placeholder="Usuário" required>
                 </div>
                 <div class="textfield">
-                    <label for="senha">Senha</label>
-                    <input type="password" name="senha" placeholder="senha">
+                    <label for="password">Senha</label>
+                    <input type="password" name="password" placeholder="senha" required>
                 </div>
-                <button class="btn-login" id="btn-login">Login</button>
-                <a href="../Interface-Cadastro/Cadastro.html">Não possuí uma conta?</a>
-
+                <button class="btn-login" type="submit">Login</button>
+                <a href="{{ url_for('cadastro') }}">Não possuí uma conta?</a>
             </form>
-
         </div>
-
     </div>
-
 </body>
 
 </html>

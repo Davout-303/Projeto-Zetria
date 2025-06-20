@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Botões da barra lateral
+
   const grafosBtn = document.getElementById("grafos-btn");
   const calendarioBtn = document.getElementById("calendario-btn");
   const decksBtn = document.getElementById("btn-decks");
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Controle do menu lateral
+  
   const menuToggle = document.getElementById("menuToggle");
   const sidebar = document.getElementById("sidebar");
 
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Fecha o menu ao clicar em um item (modo mobile)
+  
   const sidebarItems = document.querySelectorAll(".sidebar-item");
   sidebarItems.forEach((item) => {
     item.addEventListener("click", () => {

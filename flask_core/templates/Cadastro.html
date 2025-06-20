@@ -6,35 +6,41 @@
         <meta http-equiv='X-UA-Compatible' content='IE=edge'>
         <title>Cadastro</title>
         <meta name='viewport' content='width=device-width, initial-scale=1'>
-        <link rel='stylesheet' type='text/css' media='screen' href='Cadastro.css'>
-        <script src="./static/Interface-Cadastro/script.js"></script>
+        <link rel='stylesheet' type='text/css' media='screen' href='{{ url_for("static", filename="Interface-Cadastro/Cadastro.css") }}'>
     </head>
 
     <body>
         <div class="main-Cadastro">
             <div class="left-Cadastro">
                 <h1>Faça seu Cadastro</h1>
-                <img src="imgs/img-login.png" class="left-Cadastro-img"
+                <img src="{{ url_for('static', filename='Interface-Cadastro/imgs/img-login.png') }}" class="left-Cadastro-img"
                     alt="img-Cadastro">
             </div>
             <div class="right-Cadastro">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
                
-                <form class="r-card-Cadastro">
+                <form class="r-card-Cadastro" method="POST" action="{{ url_for('cadastro') }}">
                     <h1>Cadastro</h1>
                     <div class="textfield">
-                        <label for="usuario">Usuário/email</label>
-                        <input type="text" name="usuario" placeholder="Usuário">
+                        <label for="username">Usuário/email</label>
+                        <input type="text" name="username" placeholder="Usuário" required>
                     </div>
                     <div class="textfield">
-                        <label for="senha">Senha</label>
-                        <input type="password" name="senha" placeholder="senha">
+                        <label for="password">Senha</label>
+                        <input type="password" name="password" placeholder="senha" required>
                     </div>
                     <div class="textfield">
-                        <label for="senha">Confirmar senha</label>
-                        <input type="password" name="senha" placeholder="senha">
+                        <label for="confirm_password">Confirmar senha</label>
+                        <input type="password" name="confirm_password" placeholder="confirmar senha" required>
                     </div>
-                    <button class="btn-cadastro" id="btn-cadastro">Cadastrar</button>
-                    <a href="../Interface-Login/Login.html">Já possui uma conta?</a>
+                    <button class="btn-cadastro" type="submit">Cadastrar</button>
+                    <a href="{{ url_for('login') }}">Já possui uma conta?</a>
                 </form>
            
             </div>

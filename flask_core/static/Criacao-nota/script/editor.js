@@ -1,13 +1,13 @@
-// Configuração do marked
+
 marked.setOptions({
   breaks: true,
   gfm: true,
 });
 
 const editor = document.getElementById("editor");
-const preview = document.getElementById("preview");
+const preview = document.getElementById("vizualizacao");
 
-// Debounce para melhorar performance
+
 let updateTimeout;
 const updatePreview = () => {
   preview.innerHTML = marked.parse(editor.value);
@@ -18,28 +18,28 @@ const debouncedUpdate = () => {
   updateTimeout = setTimeout(updatePreview, 100);
 };
 
-// Atualiza o preview quando o conteúdo muda
-editor.addEventListener("input", debouncedUpdate);
 
-// Atualiza o preview inicial
+editor.addEventListener("entrada", debouncedUpdate);
+
+
 updatePreview();
 
-// Mantém o scroll sincronizado
+
 editor.addEventListener("scroll", () => {
   preview.scrollTop = editor.scrollTop;
 });
 
-// Garante que o editor sempre tenha foco
-editor.addEventListener("blur", () => {
+
+editor.addEventListener("borrao", () => {
   editor.focus();
 });
 
-// Foca no editor quando a página carrega
-window.addEventListener("load", () => {
+
+window.addEventListener("carregar", () => {
   editor.focus();
 });
 
-// Suporte básico para tabulação
+
 editor.addEventListener("keydown", (e) => {
   if (e.key === "Tab") {
     e.preventDefault();
