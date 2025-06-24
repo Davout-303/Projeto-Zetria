@@ -72,3 +72,5 @@ CREATE TABLE
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES usuarios (id) ON DELETE CASCADE
     );
+    
+SELECT host, user, authentication_string FROM mysql.user WHERE user = 'root';

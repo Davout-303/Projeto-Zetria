@@ -33,7 +33,7 @@ body {
     height: 15rem;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     margin: 0 auto;
-    /*Centralizar*/
+    
     background-color: #2e2e3f;
     border-radius: 2rem;
     color: #ffcc00;
@@ -45,7 +45,7 @@ body {
     display: none;
 }
 
-/** Celular **/
+
 @media (max-width: 768px) {
     #Box {
         display: none;

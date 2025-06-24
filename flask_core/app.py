@@ -17,9 +17,9 @@ def get_db_connection():
         conn = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="1234",
+            password="",
             database="zetria",
-            port=3307,
+            port=3306,
             charset='utf8mb4',
             collation='utf8mb4_unicode_ci'
         )

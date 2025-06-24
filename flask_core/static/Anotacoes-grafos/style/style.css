@@ -24,8 +24,8 @@ body {
     justify-content: center;
     align-items: center;
     background-color: #2b2b3f;
-    flex-direction: column;  /* Adicione isso para empilhar verticalmente */
-    justify-content: flex-start; /* Alinhar no topo */
+    flex-direction: column; 
+    justify-content: flex-start; 
 }
 
 .title {
