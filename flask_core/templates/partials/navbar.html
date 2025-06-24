@@ -1,0 +1,43 @@
+<!-- templates/partials/navbar.html -->
+ <link rel="stylesheet" href="{{ url_for('static', filename='Interface-Inicial/style/navbar.css') }}">
+<nav class="navbar">
+
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-top">
+            <div class="sidebar-item active" data-tooltip="Caneta" id="btn-caneta">
+                <a href="{{ url_for('notas') }}">
+                    <i class="fa-solid fa-pen"></i>
+                </a>
+            </div>
+            <div class="sidebar-item" data-tooltip="Buscar">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+
+        <div class="sidebar-bottom">
+            <div class="sidebar-item" data-tooltip="Arquivo" id="btn-decks">
+                <i class="fa-solid fa-file"></i>
+            </div>
+            <div class="sidebar-item" data-tooltip="Calendário" id="calendario-btn">
+                <a href="{{ url_for('calendario') }}">
+                    <i class="fa-solid fa-calendar"></i>
+                </a>
+            </div>
+            <div class="sidebar-item" data-tooltip="Grafos" id="grafos-btn">
+                <a href="{{ url_for('grafos') }}">
+                    <i class="fa-solid fa-code-branch"></i>
+                </a>
+            </div>
+            <div class="sidebar-item" data-tooltip="Configurações">
+                <a href="{{ url_for('logout') }}">
+                    <i class="fa-solid fa-gear"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</nav>
