@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criação de anotações</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="./static/Criacao-nota/style/navbar.css">
-    <link rel="stylesheet" href="./static/Criacao-nota/style/style.css">
-    <script src="./static/Criacao-nota/script/script.js"></script>
-    <script src="./static/Criacao-nota/script/editor.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/criacao-nota.css') }}">
+    <script src="{{ url_for('static', filename='js/editor.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </head>
 
 <body>
 
-    
+
     <button class="menu-toggle" id="menuToggle">
         <i class="fas fa-bars"></i>
     </button>
