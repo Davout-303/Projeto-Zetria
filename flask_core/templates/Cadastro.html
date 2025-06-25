@@ -17,13 +17,7 @@
                     alt="img-Cadastro">
             </div>
             <div class="right-Cadastro">
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <div class="alert alert-{{ category }}">{{ message }}</div>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
+                {% include 'partials/alert.html' %}
                
                 <form class="r-card-Cadastro" method="POST" action="{{ url_for('cadastro') }}">
                     <h1>Cadastro</h1>

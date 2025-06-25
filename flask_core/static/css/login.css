@@ -125,6 +125,8 @@ a{
     background: #ffcc00;
 }
 
+
+
 @media only screen and (max-width: 950px) {
     .r-card-login {
         width: 85vw;

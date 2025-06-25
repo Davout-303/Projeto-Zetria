@@ -7,6 +7,7 @@
     <title>Zetria</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='{{ url_for("static", filename="css/login.css") }}'>
+    
 </head>
 
 <body>
@@ -17,13 +18,7 @@
             <img src="{{ url_for('static', filename='image/img-login.png') }}" class="left-login-img" alt="img-login">
         </div>
         <div class="right-login">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
+            {% include 'partials/alert.html' %}
 
             <form class="r-card-login" method="POST" action="{{ url_for('login') }}">
                 <h1>Login</h1>
@@ -39,7 +34,10 @@
                 <a href="{{ url_for('cadastro') }}">Não possuí uma conta?</a>
             </form>
         </div>
+
+
     </div>
+
 </body>
 
 </html>
