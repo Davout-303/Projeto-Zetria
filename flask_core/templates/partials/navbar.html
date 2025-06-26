@@ -8,8 +8,8 @@
 
     <div class="sidebar" id="sidebar">
         <div class="sidebar-top">
-            <div class="sidebar-item active" data-tooltip="Caneta" id="btn-caneta">
-                <a href="{{ url_for('notas') }}">
+            <div class="sidebar-item active" data-tooltip="Adicionar uma nota" id="btn-caneta">
+                <a href="{{ url_for('nota') }}">
                     <i class="fa-solid fa-pen"></i>
                 </a>
             </div>
@@ -19,22 +19,25 @@
         </div>
 
         <div class="sidebar-bottom">
-            <div class="sidebar-item" data-tooltip="Arquivo" id="btn-decks">
-                <i class="fa-solid fa-file"></i>
+            <div class="sidebar-item" data-tooltip="Seus baralhos" id="btn-decks">
+                <a href="{{ url_for('notas') }}">
+                    <i class="fa-solid fa-file"></i>
+                </a>
+                
             </div>
             <div class="sidebar-item" data-tooltip="Calendário" id="calendario-btn">
                 <a href="{{ url_for('calendario') }}">
                     <i class="fa-solid fa-calendar"></i>
                 </a>
             </div>
-            <div class="sidebar-item" data-tooltip="Grafos" id="grafos-btn">
+            <div class="sidebar-item" data-tooltip="Visualização de grafos" id="grafos-btn">
                 <a href="{{ url_for('grafos') }}">
                     <i class="fa-solid fa-code-branch"></i>
                 </a>
             </div>
-            <div class="sidebar-item" data-tooltip="Configurações">
+            <div class="sidebar-item" data-tooltip="Sair">
                 <a href="{{ url_for('logout') }}">
-                    <i class="fa-solid fa-gear"></i>
+                    <i class="fas fa-sign-out-alt"></i>
                 </a>
             </div>
         </div>
