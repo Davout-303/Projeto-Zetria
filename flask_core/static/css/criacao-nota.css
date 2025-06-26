@@ -48,6 +48,24 @@ body {
   z-index: 2;
 }
 
+#salvar-btn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #ffcc00;
+  color: #1b1a1d;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+#salvar-btn:hover {
+  background-color: #e6b800;
+  transform: scale(1.05);
+}
+
 #preview {
   position: absolute;
   top: 0;

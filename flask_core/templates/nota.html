@@ -8,8 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/criacao-nota.css') }}">
-    <script src="{{ url_for('static', filename='js/editor.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/teste.js') }}"></script>
 </head>
 
 <body>
@@ -22,9 +21,12 @@
         <div id="editor-container">
             <textarea id="editor" placeholder="Digite usa nova anotação aqui"></textarea>
             <div id="preview"></div>
+            <button id="salvar-btn" onclick="salvarNota()">Salvar anotação</button>
+
         </div>
     </div>
 
+    
 
     <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/marked.min.js"></script>
 
