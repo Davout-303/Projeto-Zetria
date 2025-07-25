@@ -274,6 +274,110 @@ def process_note_links_tags(conn, cursor, note_id, content):
         cursor.executemany(
             "INSERT IGNORE INTO nota_tags (nota_id, tag_id) VALUES (%s, %s)", tag_link_data)
 
+#Teste do grafo(end-point)
+@app.route('/notes/graph_data')
+@login_required
+def get_graph_data():
+    user_id = session['user_id']
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({"error": "Database connection failed"}), 500
+
+    try:
+        cursor = conn.cursor(dictionary=True)
+        
+        # Buscar todas as notas do usuário
+        cursor.execute("SELECT id, title FROM notas WHERE user_id = %s", (user_id,))
+        notes = cursor.fetchall()
+        
+        # Buscar todos os links entre notas
+        cursor.execute("""
+            SELECT ln.source_nota_id as source, ln.target_nota_id as target 
+            FROM links_notas ln
+            JOIN notas n ON ln.source_nota_id = n.id
+            WHERE n.user_id = %s
+        """, (user_id,))
+        links = cursor.fetchall()
+        
+        return jsonify({
+            "nodes": [{"id": note['id'], "label": note['title']} for note in notes],
+            "edges": [{"from": link['source'], "to": link['target']} for link in links]
+        })
+        
+    except mysql.connector.Error as err:
+        return jsonify({"error": str(err)}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+
+
+#Fim do teste do grafo(end-point)
+
+
+
+#teste de criação de notas
+@app.route('/notes/all')
+@login_required
+def get_all_notes():
+    user_id = session['user_id']
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({"error": "Database connection failed"}), 500
+
+    try:
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT id, title FROM notas WHERE user_id = %s", (user_id,))
+        notes = cursor.fetchall()
+        return jsonify(notes)
+    except mysql.connector.Error as err:
+        return jsonify({"error": str(err)}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+@app.route('/notes/create_link', methods=['POST'])
+@login_required
+def create_link():
+    user_id = session['user_id']
+    data = request.get_json()
+    source_id = data.get('source_id')
+    target_id = data.get('target_id')
+    
+    if not source_id or not target_id:
+        return jsonify({"error": "IDs de origem e destino são necessários"}), 400
+
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({"error": "Database connection failed"}), 500
+
+    try:
+        cursor = conn.cursor()
+        
+        # Verificar se as notas pertencem ao usuário
+        cursor.execute("SELECT 1 FROM notas WHERE id = %s AND user_id = %s", (source_id, user_id))
+        if not cursor.fetchone():
+            return jsonify({"error": "Nota de origem não encontrada ou não pertence ao usuário"}), 403
+        
+        cursor.execute("SELECT 1 FROM notas WHERE id = %s AND user_id = %s", (target_id, user_id))
+        if not cursor.fetchone():
+            return jsonify({"error": "Nota de destino não encontrada ou não pertence ao usuário"}), 403
+        
+        # Criar o link
+        cursor.execute(
+            "INSERT IGNORE INTO links_notas (source_nota_id, target_nota_id) VALUES (%s, %s)",
+            (source_id, target_id)
+        )
+        conn.commit()
+        
+        return jsonify({"success": True})
+    except mysql.connector.Error as err:
+        conn.rollback()
+        return jsonify({"error": str(err)}), 500
+    finally:
+        cursor.close()
+        conn.close()
+#Fim do teste de criação de notas
 
 @app.route('/notessave', methods=['POST'])
 @login_required
