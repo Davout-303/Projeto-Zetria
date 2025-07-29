@@ -12,7 +12,7 @@ body {
 }
 
 
-/* Conteúdo principal */
+
 .main-content {
     flex: 1;
     padding: 20px;
@@ -24,14 +24,14 @@ body {
     padding-top: 60px;
 }
 
-/* Título da página */
+
 .page-title {
     font-size: 2rem;
     color: #ffcc00;
     font-weight: bold;
 }
 
-/* Container do calendário */
+
 .search-box {
     color: #ffcc00;
     width: 1250px;
@@ -45,13 +45,13 @@ body {
     margin-top: 20px;
 }
 
-/* Calendário */
+
 .calendar {
     width: 100%;
     height: 100%;
 }
 
-/* Cabeçalho do calendário */
+
 .calendar-header {
     display: flex;
     justify-content: space-between;
@@ -59,14 +59,14 @@ body {
     margin-bottom: 20px;
 }
 
-/* Navegação entre meses */
+
 .month-nav {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-/* Título do mês */
+
 .month-title {
     font-size: 24px;
     font-weight: bold;
@@ -74,7 +74,7 @@ body {
     text-align: center;
 }
 
-/* Botões de navegação */
+
 .nav-button {
     background: #1e1e2f;
     color: #fff;
@@ -91,7 +91,7 @@ body {
     border: solid 2px #ffcc00;
 }
 
-/* Dias da semana */
+
 .weekdays {
     margin-top: 2.2rem;
     display: grid;
@@ -102,7 +102,7 @@ body {
     color: #fff;
 }
 
-/* Dias do mês */
+
 .days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -110,7 +110,7 @@ body {
     grid-auto-rows: 1fr;
 }
 
-/* Dia individual */
+
 .day {
     aspect-ratio: 1; /* Mantém proporção quadrada */
     height: 80px;
@@ -130,26 +130,26 @@ body {
     background: #2e2e3f;
 }
 
-/* Número do dia */
+
 .day-number {
     font-weight: bold;
     margin-bottom: 4px;
     flex-shrink: 0;
 }
 
-/* Dias de outros meses */
+
 .other-month {
     color: #aaa;
     background: #2e2e3f;
 }
 
-/* Dia atual */
+
 .today {
     background: #2e2e3f;
     border: 1px solid #ffcc00;
 }
 
-/* Eventos */
+
 .event {
     font-size: 12px;
     padding: 2px 4px;
@@ -162,7 +162,7 @@ body {
 }
 
 .event-abbreviations {
-    /* ADICIONE: */
+   
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -171,7 +171,7 @@ body {
 }
 
 .event-abbreviation {
-    /* ADICIONE: */
+   
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -180,7 +180,7 @@ body {
 }
 
 @media (max-width: 1024px) {
-    /* Container do calendário */
+   
 .search-box {
     margin-top: 20px;
     margin-left: 3rem;
@@ -196,13 +196,13 @@ body {
     
 }
 
-/* Calendário */
+
 .calendar {
     width: 100%;
     height: 100%;
 }
 
-/* Dias da semana */
+
 .weekdays {
     font-size: 1.2rem;
     margin-top: 0.5rem;
@@ -214,7 +214,7 @@ body {
     color: #fff;
 }
 
-/* Dias do mês */
+
 .days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -222,9 +222,9 @@ body {
     grid-auto-rows: 1fr;
 }
 
-/* Dia individual */
+
 .day {
-    aspect-ratio: 1; /* Mantém proporção quadrada */
+    aspect-ratio: 1; 
     height: 70px;
     width: 90px;
     padding: 4px;
@@ -238,13 +238,13 @@ body {
     color: #ffcc00;
 }
 
-/* Dias de outros meses */
+
 .other-month {
     color: #aaa;
     background: #2e2e3f;
 }
 
-/* Dia atual */
+
 .today {
     background: #2e2e3f;
     border: 1px solid #ffcc00;
@@ -254,7 +254,7 @@ body {
 
 
 @media (max-width: 576px) {
-    /* Container do calendário */
+    
 .search-box {
     margin-top: 20px;
     margin-left: 0;
@@ -270,13 +270,13 @@ body {
     
 }
 
-/* Calendário */
+
 .calendar {
     width: 100%;
     height: 100%;
 }
 
-/* Dias da semana */
+
 .weekdays {
     font-size: 0.8rem;
     margin-top: 0.5rem;
@@ -288,7 +288,7 @@ body {
     color: #fff;
 }
 
-/* Dias do mês */
+
 .days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -296,9 +296,9 @@ body {
     grid-auto-rows: 1fr;
 }
 
-/* Dia individual */
+
 .day {
-    aspect-ratio: 1; /* Mantém proporção quadrada */
+    aspect-ratio: 1;
     height: 40px;
     width: 40px;
     padding: 3px;
@@ -312,13 +312,13 @@ body {
     color: #ffcc00;
 }
 
-/* Dias de outros meses */
+
 .other-month {
     color: #aaa;
     background: #2e2e3f;
 }
 
-/* Dia atual */
+
 .today {
     background: #2e2e3f;
     border: 1px solid #ffcc00;

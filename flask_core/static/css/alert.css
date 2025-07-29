@@ -24,7 +24,7 @@
   border-color: #ebccd1;
 }
 
-/* Adicionar animação de fade-in */
+
 .alert {
   animation: fadeIn 2s;
 }
@@ -34,7 +34,7 @@
   to { opacity: 1; }
 }
 
-/* Fechar automaticamente após 5 segundos */
+
 .alert-auto-close {
   animation: fadeOut 1s ease 5s forwards;
 }

@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const dayHeight = dayElements[0].offsetHeight;
       calendarDays.style.minHeight = `${
         dayHeight * rowsNeeded + (rowsNeeded - 1) * 8
-      }px`; // 8px é o gap
+      }px`; 
     }
 
     setupDayClickListeners();

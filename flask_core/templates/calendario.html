@@ -1,98 +1,329 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+{% extends "base.html" %}
 
-<head>
+{% block title %}Calendário - Zetria{% endblock %}
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendário Interativo</title>
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/calendario.css') }}">
+{% endblock %}
 
+{% block content %}
+<div class="calendario-container">
+    <header class="calendario-header">
+        <h1><i class="fas fa-calendar"></i> Calendário</h1>
+    </header>
 
-    <!-- CSSs locais -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/calendario.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/calendario-modal.css') }}">
+    <div class="calendario-content">
+        
+        <div class="calendar-nav">
+            <button class="nav-btn prev" title="Mês Anterior">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <h2 class="month-title">Julho 2025</h2>
+            <button class="nav-btn next" title="Próximo Mês">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <button class="today-btn">Hoje</button>
+        </div>
 
-    <!-- CDN externo (mantém como está) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        
+        <div class="calendar-wrapper">
+            <div class="calendar-header">
+                <div class="day-header">Dom</div>
+                <div class="day-header">Seg</div>
+                <div class="day-header">Ter</div>
+                <div class="day-header">Qua</div>
+                <div class="day-header">Qui</div>
+                <div class="day-header">Sex</div>
+                <div class="day-header">Sáb</div>
+            </div>
+            <div class="calendar-grid">
+                
+            </div>
+        </div>
 
-
-    <script src="{{ url_for('static', filename='js/calendario.js') }}" ></script>
-</head>
-
-<body>
-
-    {% include 'partials/navbar.html' %}
-
-
-    <div class="main-content">
-
-        <h1 class="page-title">Calendário</h1>
-
-
-        <div class="search-box">
-            <div class="calendar">
-
-                <div class="calendar-header">
-                    <div class="month-nav">
-                        <button class="nav-button" id="prev-month">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <div class="month-title" id="current-month">Maio 2023</div>
-                        <button class="nav-button" id="next-month">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                    <button class="nav-button" id="today-button">
-                        H
+        
+        <div class="task-form-container">
+            <h3><i class="fas fa-plus"></i> Adicionar Tarefa</h3>
+            <form id="taskForm" class="task-form">
+                <div class="form-group">
+                    <label for="title">Título</label>
+                    <input type="text" id="title" name="title" required placeholder="Digite o título da tarefa">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Descrição</label>
+                    <textarea id="description" name="description" placeholder="Descrição opcional da tarefa"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="due_date">Data e Hora</label>
+                    <input type="datetime-local" id="due_date" name="due_date" required>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Criar Tarefa
+                    </button>
+                    <button type="reset" class="btn btn-secondary">
+                        <i class="fas fa-times"></i>
+                        Limpar
                     </button>
                 </div>
-
-
-                <div class="weekdays">
-                    <div>Dom</div>
-                    <div>Seg</div>
-                    <div>Ter</div>
-                    <div>Qua</div>
-                    <div>Qui</div>
-                    <div>Sex</div>
-                    <div>Sáb</div>
-                </div>
-
-
-                <div class="days" id="calendar-days">
-
-                </div>
-            </div>
+            </form>
         </div>
     </div>
+</div>
 
+<style>
+.calendario-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
-    <div class="modal-overlay" id="modal-overlay">
-        <div class="modal">
+.calendario-header h1 {
+    color: #ffcc00;
+    font-size: 32px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
-            <div class="modal-header">
-                <div class="modal-title" id="modal-date">15 de Maio 2023</div>
-                <button class="close-modal" id="close-modal">&times;</button>
-            </div>
+.calendario-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
 
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
 
-            <div class="modal-body">
+.nav-btn {
+    background: rgba(255, 204, 0, 0.1);
+    border: 1px solid rgba(255, 204, 0, 0.3);
+    color: #ffcc00;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
-                <div class="events-list" id="events-list">
+.nav-btn:hover {
+    background: rgba(255, 204, 0, 0.2);
+    border-color: #ffcc00;
+}
 
-                </div>
+.today-btn {
+    background: #ffcc00;
+    color: #1e1e2f;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
+.today-btn:hover {
+    background: #ffdd33;
+}
 
-                <div class="add-event-form">
-                    <input type="text" class="event-input" id="event-input" placeholder="Adicionar novo evento...">
-                    <button class="add-event-btn" id="add-event-btn">+</button>
-                </div>
-            </div>
-        </div>
-    </div>
+.month-title {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 600;
+    min-width: 200px;
+    text-align: center;
+}
 
+.calendar-wrapper {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-    <script src="./static/Calendario/script/calendario.js"></script>
-</body>
+.calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    margin-bottom: 10px;
+}
 
-</html>
+.day-header {
+    text-align: center;
+    padding: 15px 5px;
+    font-weight: 600;
+    color: #ffcc00;
+    background: rgba(255, 204, 0, 0.1);
+    border-radius: 6px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+}
+
+.calendar-day {
+    min-height: 80px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.calendar-day:hover {
+    background: rgba(255, 204, 0, 0.1);
+    border-color: rgba(255, 204, 0, 0.3);
+}
+
+.calendar-day.today {
+    background: rgba(255, 204, 0, 0.2);
+    border-color: #ffcc00;
+}
+
+.calendar-day.other-month {
+    opacity: 0.3;
+}
+
+.day-number {
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.day-tasks {
+    margin-top: 4px;
+}
+
+.task-form-container {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: fit-content;
+}
+
+.task-form-container h3 {
+    color: #ffcc00;
+    font-size: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    color: #ffffff;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #ffcc00;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    justify-content: center;
+}
+
+.btn-primary {
+    background: #ffcc00;
+    color: #1e1e2f;
+}
+
+.btn-primary:hover {
+    background: #ffdd33;
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+    .calendario-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .calendar-nav {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .month-title {
+        min-width: auto;
+        font-size: 20px;
+    }
+    
+    .calendar-day {
+        min-height: 60px;
+        padding: 4px;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/calendario-api.js') }}"></script>
+{% endblock %}
+

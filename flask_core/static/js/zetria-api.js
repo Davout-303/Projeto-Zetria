@@ -1,312 +1,315 @@
-
 class ZetriaAPI {
     constructor() {
         this.baseURL = window.location.origin;
+        this.apiURL = `${this.baseURL}/api`;
+    }
+
+    // Fazer requisição HTTP
+
+    async request(url, options = {}) {
+        const defaultOptions = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'same-origin'
+        };
+
+        const config = { ...defaultOptions, ...options };
+
+        try {
+            const response = await fetch(url, config);
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || `HTTP ${response.status}`);
+            }
+
+            return data;
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+            throw error;
+        }
+    }
+
+    // OPERAÇÕES CRUD
+
+    
+    async listarNotas() {
+        return await this.request(`${this.apiURL}/notas`);
     }
 
     
-    async getFlashcards(notaId = null) {
-        try {
-            const url = notaId ? `/api/flashcards?nota_id=${notaId}` : '/api/flashcards';
-            const response = await fetch(url);
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Erro ao buscar flashcards:', error);
-            return { success: false, error: error.message };
-        }
-    }
-
-    async createFlashcard(notaId, frontContent, backContent) {
-        try {
-            const response = await fetch('/api/flashcards', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    nota_id: notaId,
-                    front_content: frontContent,
-                    back_content: backContent
-                })
-            });
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Erro ao criar flashcard:', error);
-            return { success: false, error: error.message };
-        }
+    async obterNota(id) {
+        return await this.request(`${this.apiURL}/notas/${id}`);
     }
 
     
-    async getTasks() {
-        try {
-            const response = await fetch('/api/tasks');
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Erro ao buscar tarefas:', error);
-            return { success: false, error: error.message };
-        }
+    async criarNota(dados) {
+        return await this.request(`${this.apiURL}/notas`, {
+            method: 'POST',
+            body: JSON.stringify(dados)
+        });
     }
 
-    async createTask(title, description, dueDate, recurring = false, recurrenceRule = '') {
-        try {
-            const response = await fetch('/api/tasks', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    title: title,
-                    description: description,
-                    due_date: dueDate,
-                    recurring: recurring,
-                    recurrence_rule: recurrenceRule
-                })
-            });
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Erro ao criar tarefa:', error);
-            return { success: false, error: error.message };
-        }
+    
+    async atualizarNota(id, dados) {
+        return await this.request(`${this.apiURL}/notas/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(dados)
+        });
     }
 
-    async updateTask(taskId, completed) {
-        try {
-            const response = await fetch(`/api/tasks/${taskId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    completed: completed
-                })
-            });
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Erro ao atualizar tarefa:', error);
-            return { success: false, error: error.message };
-        }
-    }
-
-    async deleteTask(taskId) {
-        try {
-            const response = await fetch(`/api/tasks/${taskId}`, {
-                method: 'DELETE'
-            });
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Erro ao deletar tarefa:', error);
-            return { success: false, error: error.message };
-        }
+    
+    async deletarNota(id) {
+        return await this.request(`${this.apiURL}/notas/${id}`, {
+            method: 'DELETE'
+        });
     }
 }
 
 
-const zetriaAPI = new ZetriaAPI();
-
-
-function showMessage(message, type = 'info') {
-    const alertDiv = document.createElement('div');
-    alertDiv.className = `alert alert-${type}`;
-    alertDiv.textContent = message;
+function mostrarNotificacao(mensagem, tipo = 'info') {
     
-    const container = document.querySelector('.container') || document.body;
-    container.insertBefore(alertDiv, container.firstChild);
+    const existentes = document.querySelectorAll('.notificacao-toast');
+    existentes.forEach(n => n.remove());
+
+    const toast = document.createElement('div');
+    toast.className = `notificacao-toast notificacao-${tipo}`;
+    toast.innerHTML = `
+        <div class="toast-content">
+            <i class="fas fa-${getIconeNotificacao(tipo)}"></i>
+            <span>${mensagem}</span>
+        </div>
+        <button class="toast-close" onclick="this.parentElement.remove()">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+
     
+    if (!document.getElementById('toast-styles')) {
+        const styles = document.createElement('style');
+        styles.id = 'toast-styles';
+        styles.textContent = `
+            .notificacao-toast {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 10000;
+                min-width: 300px;
+                max-width: 500px;
+                padding: 16px;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                animation: slideIn 0.3s ease-out;
+            }
+            
+            .notificacao-success {
+                background: rgba(46, 204, 113, 0.9);
+                border: 1px solid rgba(46, 204, 113, 0.3);
+                color: white;
+            }
+            
+            .notificacao-error {
+                background: rgba(231, 76, 60, 0.9);
+                border: 1px solid rgba(231, 76, 60, 0.3);
+                color: white;
+            }
+            
+            .notificacao-warning {
+                background: rgba(241, 196, 15, 0.9);
+                border: 1px solid rgba(241, 196, 15, 0.3);
+                color: #1e1e2f;
+            }
+            
+            .notificacao-info {
+                background: rgba(52, 152, 219, 0.9);
+                border: 1px solid rgba(52, 152, 219, 0.3);
+                color: white;
+            }
+            
+            .toast-content {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                flex: 1;
+            }
+            
+            .toast-close {
+                background: none;
+                border: none;
+                color: inherit;
+                cursor: pointer;
+                padding: 4px;
+                border-radius: 4px;
+                opacity: 0.7;
+                transition: opacity 0.2s;
+            }
+            
+            .toast-close:hover {
+                opacity: 1;
+            }
+            
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(styles);
+    }
+
+    document.body.appendChild(toast);
+
+    // Auto-remover após 5 segundos
     setTimeout(() => {
-        alertDiv.remove();
+        if (toast.parentElement) {
+            toast.style.animation = 'slideIn 0.3s ease-out reverse';
+            setTimeout(() => toast.remove(), 300);
+        }
     }, 5000);
 }
 
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('pt-BR') + ' ' + date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+function getIconeNotificacao(tipo) {
+    const icones = {
+        success: 'check-circle',
+        error: 'exclamation-circle',
+        warning: 'exclamation-triangle',
+        info: 'info-circle'
+    };
+    return icones[tipo] || 'info-circle';
 }
 
 
-async function loadFlashcards(notaId = null) {
-    const result = await zetriaAPI.getFlashcards(notaId);
-    if (result.success) {
-        displayFlashcards(result.flashcards);
-    } else {
-        showMessage('Erro ao carregar flashcards: ' + result.error, 'danger');
+function mostrarLoading(elemento, texto = 'Carregando...') {
+    if (typeof elemento === 'string') {
+        elemento = document.querySelector(elemento);
     }
-}
-
-function displayFlashcards(flashcards) {
-    const container = document.getElementById('flashcards-container');
-    if (!container) return;
-
-    container.innerHTML = '';
     
-    if (flashcards.length === 0) {
-        container.innerHTML = '<p>Nenhum flashcard encontrado.</p>';
-        return;
-    }
+    if (!elemento) return;
 
-    flashcards.forEach(flashcard => {
-        const flashcardElement = createFlashcardElement(flashcard);
-        container.appendChild(flashcardElement);
-    });
-}
-
-function createFlashcardElement(flashcard) {
-    const div = document.createElement('div');
-    div.className = 'flashcard';
-    div.innerHTML = `
-        <div class="flashcard-inner">
-            <div class="flashcard-front">
-                <p>${flashcard.front_content}</p>
-            </div>
-            <div class="flashcard-back">
-                <p>${flashcard.back_content}</p>
-            </div>
+    elemento.innerHTML = `
+        <div class="loading-state">
+            <div class="spinner"></div>
+            <p>${texto}</p>
         </div>
     `;
-    
-    div.addEventListener('click', () => {
-        div.classList.toggle('flipped');
-    });
-    
-    return div;
+    elemento.classList.add('loading');
 }
 
 
-async function loadTasks() {
-    const result = await zetriaAPI.getTasks();
-    if (result.success) {
-        displayTasks(result.tasks);
-    } else {
-        showMessage('Erro ao carregar tarefas: ' + result.error, 'danger');
+function removerLoading(elemento) {
+    if (typeof elemento === 'string') {
+        elemento = document.querySelector(elemento);
     }
-}
-
-function displayTasks(tasks) {
-    const container = document.getElementById('tasks-container');
-    if (!container) return;
-
-    container.innerHTML = '';
     
-    if (tasks.length === 0) {
-        container.innerHTML = '<p>Nenhuma tarefa encontrada.</p>';
-        return;
-    }
-
-    tasks.forEach(task => {
-        const taskElement = createTaskElement(task);
-        container.appendChild(taskElement);
-    });
-}
-
-function createTaskElement(task) {
-    const div = document.createElement('div');
-    div.className = `task-item ${task.completed ? 'completed' : ''}`;
-    div.innerHTML = `
-        <div class="task-content">
-            <h4>${task.title}</h4>
-            <p>${task.description || ''}</p>
-            ${task.due_date ? `<small>Prazo: ${formatDate(task.due_date)}</small>` : ''}
-        </div>
-        <div class="task-actions">
-            <button onclick="toggleTask(${task.id}, ${!task.completed})" class="btn-toggle">
-                ${task.completed ? 'Reabrir' : 'Concluir'}
-            </button>
-            <button onclick="deleteTaskConfirm(${task.id})" class="btn-delete">Excluir</button>
-        </div>
-    `;
+    if (!elemento) return;
     
-    return div;
+    elemento.classList.remove('loading');
 }
 
-async function toggleTask(taskId, completed) {
-    const result = await zetriaAPI.updateTask(taskId, completed);
-    if (result.success) {
-        showMessage('Tarefa atualizada com sucesso!', 'success');
-        loadTasks(); 
-    } else {
-        showMessage('Erro ao atualizar tarefa: ' + result.error, 'danger');
-    }
+
+function formatarData(dataString) {
+    const data = new Date(dataString);
+    const agora = new Date();
+    const diffMs = agora - data;
+    const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    
+    if (diffDias === 0) return 'Hoje';
+    if (diffDias === 1) return 'Ontem';
+    if (diffDias < 7) return `${diffDias} dias atrás`;
+    
+    return data.toLocaleDateString('pt-BR');
 }
 
-async function deleteTaskConfirm(taskId) {
-    if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
-        const result = await zetriaAPI.deleteTask(taskId);
-        if (result.success) {
-            showMessage('Tarefa excluída com sucesso!', 'success');
-            loadTasks(); 
-        } else {
-            showMessage('Erro ao excluir tarefa: ' + result.error, 'danger');
-        }
+
+function truncarTexto(texto, limite = 100) {
+    if (texto.length <= limite) return texto;
+    return texto.substring(0, limite) + '...';
+}
+
+
+function extrairTags(conteudo) {
+    const matches = conteudo.match(/#\w+/g);
+    return matches ? matches.map(tag => tag.substring(1)) : [];
+}
+
+
+function confirmarAcao(mensagem, callback) {
+    if (confirm(mensagem)) {
+        callback();
     }
 }
 
 
-function setupFlashcardForm() {
-    const form = document.getElementById('flashcard-form');
-    if (!form) return;
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const formData = new FormData(form);
-        const notaId = formData.get('nota_id');
-        const frontContent = formData.get('front_content');
-        const backContent = formData.get('back_content');
-        
-        const result = await zetriaAPI.createFlashcard(notaId, frontContent, backContent);
-        if (result.success) {
-            showMessage('Flashcard criado com sucesso!', 'success');
-            form.reset();
-            loadFlashcards(); 
-        } else {
-            showMessage('Erro ao criar flashcard: ' + result.error, 'danger');
-        }
-    });
-}
-
-function setupTaskForm() {
-    const form = document.getElementById('task-form');
-    if (!form) return;
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const formData = new FormData(form);
-        const title = formData.get('title');
-        const description = formData.get('description');
-        const dueDate = formData.get('due_date');
-        const recurring = formData.get('recurring') === 'on';
-        const recurrenceRule = formData.get('recurrence_rule');
-        
-        const result = await zetriaAPI.createTask(title, description, dueDate, recurring, recurrenceRule);
-        if (result.success) {
-            showMessage('Tarefa criada com sucesso!', 'success');
-            form.reset();
-            loadTasks(); 
-        } else {
-            showMessage('Erro ao criar tarefa: ' + result.error, 'danger');
-        }
-    });
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
 }
 
 
+
+// Instância global da API
+const api = new ZetriaAPI();
+
+// Adicionar estilos de loading se não existirem
 document.addEventListener('DOMContentLoaded', function() {
-    
-    setupFlashcardForm();
-    setupTaskForm();
-    
-    
-    if (document.getElementById('flashcards-container')) {
-        loadFlashcards();
-    }
-    
-    if (document.getElementById('tasks-container')) {
-        loadTasks();
+    if (!document.getElementById('loading-styles')) {
+        const styles = document.createElement('style');
+        styles.id = 'loading-styles';
+        styles.textContent = `
+            .loading-state {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 40px 20px;
+                color: rgba(255, 255, 255, 0.6);
+            }
+            
+            .loading-state .spinner {
+                margin-bottom: 16px;
+            }
+            
+            .loading-state p {
+                margin: 0;
+                font-size: 14px;
+            }
+            
+            .loading {
+                opacity: 0.6;
+                pointer-events: none;
+            }
+        `;
+        document.head.appendChild(styles);
     }
 });
+
+// Exportar para uso global
+window.ZetriaAPI = ZetriaAPI;
+window.api = api;
+window.mostrarNotificacao = mostrarNotificacao;
+window.mostrarLoading = mostrarLoading;
+window.removerLoading = removerLoading;
+window.formatarData = formatarData;
+window.truncarTexto = truncarTexto;
+window.extrairTags = extrairTags;
+window.confirmarAcao = confirmarAcao;
+window.debounce = debounce;
 
