@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block title %}Calendário - Zetria{% endblock %}
 
+{% block navbar %}
+{% include 'partials/navbar.html' %}
+{% endblock %}
+
+
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/calendario.css') }}">
 {% endblock %}

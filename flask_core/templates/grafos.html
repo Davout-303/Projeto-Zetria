@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Grafos de Conhecimento - Zetria{% endblock %}
 
+{% block navbar %}
+{% include 'partials/navbar.html' %}
+{% endblock %}
+
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/grafo.css') }}">
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/grafo.css') }}"> -->
 <style>
 .grafos-container {
     max-width: 1200px;
@@ -57,14 +61,14 @@
     background: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    height: 600px;
+    height: 500px;
     position: relative;
     overflow: hidden;
 }
 
 .graph-canvas {
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
 }
 
 .graph-info {

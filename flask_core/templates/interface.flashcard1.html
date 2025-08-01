@@ -2,8 +2,12 @@
 
 {% block title %}Flashcards - Zetria{% endblock %}
 
+{% block navbar %}
+{% include 'partials/navbar.html' %}
+{% endblock %}
+
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='Interface-Flahscard/style/interface1.css') }}">
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='Interface-Flahscard/style/interface1.css') }}"> -->
 <style>
 .main-content {
     padding: 2rem;
